@@ -79,21 +79,24 @@ left join SeriesTitle st on s.name_title_id = st.id
 where category_id = 1
 group by s.id
 order by s.release_time desc;
--- 熱門（php3天）
+-- 熱門
 drop view if exists vw_hotEgg;
-create view vw_hotEgg as select c.series_id series_id, t.theme theme, st.name_title series_title, s.name name, p.price price, amount from Records r
-left join Characters c on r.character_id = c.id
-left join Series s on s.id = c.series_id
-left join SeriesTitle st on s.name_title_id = st.id
-left join Theme t on s.theme_id = t.id
-left join Price p on s.price_id = p.id
-left join (select s.id series_id, count(s.id) amount from Series s
-left join Characters c on s.id = c.series_id
-where category_id = 1
-group by s.id) a on c.series_id = a.series_id
-where category_id = 1
-group by c.series_id
-order by count(c.series_id) DESC;
+create view vw_hotEgg as select o.id series_id, Theme.theme theme, SeriesTitle.name_title series_title, o.name name, Price.price price, count(o.id) amount, rank
+from(
+    select s.series_id id, Series.name name, Series.theme_id, Series.name_title_id, Series.price_id, rank
+	from(
+    	select series_id, count(series_id) rank
+		from Records r 
+		left join Characters c on r.character_id = c.id
+		group by c.series_id
+		order by rank desc) as s
+	left join Series on s.series_id = Series.id
+	where Series.category_id = 1) as o
+left join Theme on o.theme_id = Theme.id
+left join SeriesTitle on o.name_title_id = SeriesTitle.id
+left join Price on o.price_id = Price.id
+left join Characters on o.id = Characters.series_id
+group by o.id;
 -- 限量
 drop view if exists vw_rareEgg;
 create view vw_rareEgg as select s.id series_id, t.theme theme, st.name_title series_title, s.name name, p.price price, count(s.id) amount from Series s
@@ -210,3 +213,4 @@ group by user_id;
 select sum(amount) gift_expired from gift
 where user_id = 1 and update_at > expire_at
 group by user_id;
+

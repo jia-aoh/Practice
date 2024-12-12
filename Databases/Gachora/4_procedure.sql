@@ -261,3 +261,31 @@ left join Characters c on r.character_id = c.id
 group by character_id;
 end ;;
 delimiter;
+
+drop procedure if exists GetAllCardByCategoryId;
+delimiter ;;
+create procedure GetAllCardByCategoryId(in p_category_id int)
+begin
+select o.id series_id, Theme.theme theme, SeriesTitle.name_title series_title, o.name name, Price.price price, count(o.id) amount, rank, rare, o.release_time
+from(
+    select s.series_id id, Series.name name, Series.theme_id, Series.name_title_id, Series.price_id, sum(rank) rank, sum(rare) rare, Series.release_time
+	from(
+    	select series_id, count(series_id) rank, 0 rare
+		  from Records r 
+		  left join Characters c on r.character_id = c.id
+          where time >= now() - interval 3 DAY
+		  group by c.series_id
+      union all 
+      select id series_id, 0 rank, stock rare
+      from Series
+    ) as s 
+	left join Series on s.series_id = Series.id
+	where Series.category_id = p_category_id
+  group by s.series_id) as o
+left join Theme on o.theme_id = Theme.id
+left join SeriesTitle on o.name_title_id = SeriesTitle.id
+left join Price on o.price_id = Price.id
+left join Characters on o.id = Characters.series_id
+group by o.id;
+end ;;
+delimiter;
