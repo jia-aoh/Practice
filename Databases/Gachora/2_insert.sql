@@ -497,10 +497,10 @@ VALUES
 (1, '家', 20, '鄉間小路1號', 13),
 (1, '公司', 1, '康莊大道0號', 12);
 
-INSERT INTO Logistics (user_id, logistics_people_id, address_id, method_id, status_id, time)
+INSERT INTO Logistics (user_id, logistics_people_id, address_id, method_id, status_id, time, deliver_time)
 VALUES
-(1, 1, 2, 1, 7, 1697735674),
-(1, 2, 1, 2, 8, 1697620375);
+(1, 1, 2, 1, 7, 1697735674, 2),
+(1, 2, 1, 2, 8, 1697620375, 1);
 
 INSERT INTO LogisticsItem (logistics_id, records_id)
 VALUES

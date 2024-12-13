@@ -75,12 +75,39 @@ left join Price p on s.price_id = p.id
 where r.user_id = p_user_id and r.status_id = 3
 group by r.user_id
 union all
-select sum(amount) gash from gift p_user_id
-where user_id = p_user_id and update_at < expire_at
-group by user_id
+select sum(amount) * -1 gash from gift
+where user_id = p_user_id and unix_timestamp(now()) > expire_at
+group by user_id) as tmp;
+end ;;
+delimiter;
+
+drop procedure if exists GetGashNowByIdOutRemain;
+delimiter ;;
+create procedure GetGashNowByIdOutRemain(in p_user_id int, out p_remaingash int)
+begin
+select sum(gash) into p_remaingash from 
+(select sum(g.gash) gash from bill b 
+left join Gash g on b.gash_id = g.id
+where b.update_at > b.create_at
+and b.user_id = p_user_id
+group by b.user_id
+union all
+select sum(p.price) * -1 gash from Records r
+left join Characters c on r.character_id = c.id
+left join Series s on s.id = c.series_id
+left join Price p on s.price_id = p.id
+where r.user_id = p_user_id
+group by r.user_id
+union all
+select floor(sum(p.price) / 10) gash from Records r
+left join Characters c on r.character_id = c.id
+left join Series s on s.id = c.series_id
+left join Price p on s.price_id = p.id
+where r.user_id = p_user_id and r.status_id = 3
+group by r.user_id
 union all
 select sum(amount) * -1 gash from gift
-where user_id = p_user_id and update_at > expire_at
+where user_id = p_user_id and unix_timestamp(now()) > expire_at
 group by user_id) as tmp;
 end ;;
 delimiter;
@@ -187,11 +214,13 @@ drop procedure if exists GetBagCartByIdAndStatus;
 delimiter ;;
 create procedure GetBagCartByIdAndStatus(in p_user_id int, in p_status_id int)
 begin
-SELECT record_id, character_img img, series_title title, series_name series, character_name as name, count(character_id) amount, gift, prize FROM `vw_AllMyRecords` 
-where user_id = p_user_id and status_id = p_status_id
-group by character_id;
+SELECT record_id, character_img img, series_title title, series_name series, character_name as name, gift, prize, time FROM `vw_AllMyRecords` 
+where user_id = p_user_id and status_id = p_status_id;
 end ;;
 delimiter;
+
+SELECT record_id, character_img img, series_title title, series_name series, character_name as name, gift, prize FROM `vw_AllMyRecords` 
+where user_id = 1 and status_id = 4;
 
 drop procedure if exists GetAllLogisticsById;
 delimiter ;;
@@ -218,14 +247,14 @@ end ;;
 delimiter;
 
 
-全
-select record_id, category, series_title, series_name, character_name, character_img, price, 0 gift, prize, status, time from vw_AllMyRecords where user_id = 1
-union all 
-select record_id, '兌換G幣' category, series_title, series_name, character_name, character_img, price, gift, prize, status, time from vw_AllMyGiftRecords where user_id = 1
+-- 全
+-- select record_id, category, series_title, series_name, character_name, character_img, price, 0 gift, prize, status, time from vw_AllMyRecords where user_id = 1
+-- union all 
+-- select record_id, '兌換G幣' category, series_title, series_name, character_name, character_img, price, gift, prize, status, time from vw_AllMyGiftRecords where user_id = 1
 
-SELECT recored_id, character_img img, series_title title, series_name series, character_name as name FROM `vw_AllMyRecords` 
-where user_id = 1 and status_id = 4
-group by 
+-- SELECT recored_id, character_img img, series_title title, series_name series, character_name as name FROM `vw_AllMyRecords` 
+-- where user_id = 1 and status_id = 4
+-- group by 
 
 
 drop procedure if exists GetLogisticsDetailById;
@@ -287,5 +316,38 @@ left join SeriesTitle on o.name_title_id = SeriesTitle.id
 left join Price on o.price_id = Price.id
 left join Characters on o.id = Characters.series_id
 group by o.id;
+end ;;
+delimiter;
+
+drop procedure if exists GetAllCardByUserAndCategoryId;
+delimiter ;;
+create procedure GetAllCardByUserAndCategoryId(in p_user_id int, in p_category_id int)
+begin
+select a.series_id, theme, series_title, name, price, amount, rank, rare, release_time, case when b.user_id > 0 then 1 else 0 end as collected
+from(
+    select o.id series_id, Theme.theme theme, SeriesTitle.name_title series_title, o.name name, Price.price price, count(o.id) amount, rank, rare, o.release_time
+    from(
+        select s.series_id id, Series.name name, Series.theme_id, Series.name_title_id, Series.price_id, sum(rank) rank, sum(rare) rare, Series.release_time
+    	from(
+        	select series_id, count(series_id) rank, 0 rare
+    		  from Records r 
+    		  left join Characters c on r.character_id = c.id
+              where time >= now() - interval 3 DAY
+    		  group by c.series_id
+          union all 
+          select id series_id, 0 rank, stock rare
+          from Series
+        ) as s 
+    	left join Series on s.series_id = Series.id
+    	where Series.category_id = p_category_id
+      group by s.series_id) as o
+    left join Theme on o.theme_id = Theme.id
+    left join SeriesTitle on o.name_title_id = SeriesTitle.id
+    left join Price on o.price_id = Price.id
+    left join Characters on o.id = Characters.series_id
+    group by o.id
+    ) as a 
+left join (select user_id, series_id from Collection where user_id = p_user_id) as b on a.series_id = b.series_id;
+
 end ;;
 delimiter;

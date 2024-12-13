@@ -137,17 +137,6 @@ left join Characters c on s.id = c.series_id
 left join Machine m on c.id = m.character_id
 left join Prize pz on c.prize_id = pz.id;
 
-drop procedure if exists GetAmountById;
-delimiter $$
-create procedure GetAmountById(in p_series_id int)
-begin 
-select sum(remain) remain, sum(amount) total 
-from vw_RemainTotal 
-where series_id = p_series_id
-group by series_id;
-end $$ 
-delimiter;
-
 -- 系列id, 角色img, size, material
 drop view if EXISTS vw_detail;
 create view vw_detail as
@@ -186,31 +175,31 @@ group by s.id;
 
 -- 總G幣total_gash procedure（gash_in - record + gift - expire_gift + gash_back）
 
-select sum(g.gash) gash_in from bill b 
-left join Gash g on b.gash_id = g.id
-where b.update_at > b.create_at
-and b.user_id = 1
-GROUP by b.user_id;
+-- select sum(g.gash) gash_in from bill b 
+-- left join Gash g on b.gash_id = g.id
+-- where b.update_at > b.create_at
+-- and b.user_id = 1
+-- GROUP by b.user_id;
 
-select sum(p.price) pay_record from Records r
-left join Characters c on r.character_id = c.id
-left join Series s on s.id = c.series_id
-left join Price p on s.price_id = p.id
-where r.user_id = 1
-group by r.user_id;
+-- select sum(p.price) pay_record from Records r
+-- left join Characters c on r.character_id = c.id
+-- left join Series s on s.id = c.series_id
+-- left join Price p on s.price_id = p.id
+-- where r.user_id = 1
+-- group by r.user_id;
 
-select floor(sum(p.price) / 10) gash_back from Records r
-left join Characters c on r.character_id = c.id
-left join Series s on s.id = c.series_id
-left join Price p on s.price_id = p.id
-where r.user_id = 1 and r.status_id = 3
-group by r.user_id;
+-- select floor(sum(p.price) / 10) gash_back from Records r
+-- left join Characters c on r.character_id = c.id
+-- left join Series s on s.id = c.series_id
+-- left join Price p on s.price_id = p.id
+-- where r.user_id = 1 and r.status_id = 3
+-- group by r.user_id;
 
-select sum(amount) gash_gift from gift
-where user_id = 1 and update_at < expire_at
-group by user_id;
+-- select sum(amount) gash_gift from gift
+-- where user_id = 1 and update_at < expire_at
+-- group by user_id;
 
-select sum(amount) gift_expired from gift
-where user_id = 1 and update_at > expire_at
-group by user_id;
+-- select sum(amount) gift_expired from gift
+-- where user_id = 1 and update_at > expire_at
+-- group by user_id;
 
