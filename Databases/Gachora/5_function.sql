@@ -139,7 +139,7 @@ begin
   from(
     select character_id 
     from Records 
-    where time = p_time
+    where wait = p_time
   )as r
   left join Characters c on r.character_id = c.id 
   group by c.id;
@@ -172,10 +172,22 @@ flag: begin
     leave flag;
   end if;
   -- 獲取機台剩餘數量
-  call GetMachineRemain(p_series_id, RemainProduct);
+  start transaction; 
+  -- call GetMachineRemain(p_series_id, RemainProduct) for update;
+    select sum(m.remain) into RemainProduct
+  from(
+      select id
+  	  from Series 
+  	  where id = p_series_id
+  )as s 
+  left join Characters c on s.id = c.series_id
+  left join Machine m on c.id = m.character_id
+  group by series_id 
+  for update;
   -- 若購買數>剩餘，回彈"機台剩餘不足，修改選購數量"
   if p_purchase_id > RemainProduct then 
     select 'Insufficient products in machine. Please adjust your purchase quantity.' as error;
+    rollback;
     leave flag;
   end if;
   -- 足->隨機生成
@@ -187,11 +199,24 @@ flag: begin
     call AddRecord(p_user_id, RandomCharacterId, p_time, 0);
     set i = i + 1;
   end while;
+  commit;
   call PrintResult(p_time);
   -- 有剩離開
-  call GetMachineRemain(p_series_id, RemainProductEnd);
+   start transaction; 
+  -- call GetMachineRemain(p_series_id, RemainProductEnd) for update;
+    select sum(m.remain) into RemainProductEnd
+  from(
+      select id
+  	  from Series 
+  	  where id = p_series_id
+  )as s 
+  left join Characters c on s.id = c.series_id
+  left join Machine m on c.id = m.character_id
+  group by series_id 
+  for update;
   if RemainProductEnd > 0 then 
-    select 'done, remain' as error;
+    select 'done, still remain' as error;
+    rollback;
     leave flag;
   end if;
   -- 沒剩如果庫存 > 0補機台
@@ -202,7 +227,109 @@ flag: begin
     set stock = stock - 1 
     where id = p_series_id;
     select 'refill done' as error;
+    commit;
     leave flag;
   end if;
+end ;;
+delimiter;
+-- 排隊
+drop procedure if exists GetInLine;
+delimiter ;;
+create procedure GetInLine(in p_series_id int, in p_user_id int, in p_number int, in p_time int)
+begin 
+  insert into Waitinglist (series_id, user_id, number, wait)
+  values (p_series_id, p_user_id, p_number, p_time);
+end ;; 
+delimiter;
+
+-- 查看最長等待時間(秒)
+drop procedure if exists SeeWaitTime;
+delimiter ;;
+create procedure SeeWaitTime(in p_series_id int, in p_number_id int)
+begin 
+  declare RemainTime int;
+  -- 剩多少時間
+  select wait + 190 * (count(series_id) -1) - unix_timestamp(now()) into RemainTime
+  from Waitinglist 
+  where series_id = p_series_id and number < p_number_id + 1
+  order by wait desc;
+  -- 超過時間處理
+  if RemainTime < -190 then
+    call DeleteWaiting(p_series_id, p_number_id);
+    select 'times up' as error;
+  else 
+    select RemainTime as times;
+  end if;
+end ;;
+delimiter;
+
+-- 取消排隊
+drop procedure if exists DeleteWaiting;
+delimiter ;;
+create procedure DeleteWaiting( in p_series_id int, in p_number_id int)
+begin 
+  declare WhosFirst int;
+
+  delete from Waitinglist 
+  where series_id = p_series_id and number <= p_number_id;
+  -- 如果等待者抽完，改下一位起始時間
+  select number into WhosFirst
+  from Waitinglist 
+  where series_id = p_series_id
+  order by number 
+  limit 1;
+
+  if p_number_id < WhosFirst then
+    update Waitinglist 
+    set wait = unix_timestamp(now())
+    where number = WhosFirst;
+  end if;
+  -- 中離不改第一位時間
+end ;;
+delimiter;
+
+
+
+-- 一番賞排隊
+drop procedure if exists LineUp;
+delimiter ;;
+create procedure LineUp(in p_series_id int, in p_user_id int)
+flag:begin 
+  declare ListNumbers int;
+  declare UserExists int;
+  declare LastNumber int;
+
+-- 會員點排隊
+-- 查有沒有排隊紀錄
+  select count(series_id) into ListNumbers
+  from Waitinglist 
+  where series_id = p_series_id;
+  -- 不是第一位
+  if ListNumbers > 0 then 
+    select count(series_id) into UserExists
+    from Waitinglist
+    where series_id = p_series_id and user_id = p_user_id;
+    -- 排隊
+    if UserExists = 0 then 
+      select number into LastNumber 
+      from Waitinglist 
+      where series_id = p_series_id
+      order by number desc
+      limit 1;
+      call GetInLine(p_series_id, p_user_id, LastNumber + 1, null);
+    -- 重排不理
+    else 
+      select 'You are already in line.' as error;
+      leave flag;
+    end if;
+  else
+    -- 第一位
+    call GetInLine(p_series_id, p_user_id, 1, unix_timestamp(now()));
+  end if;
+  -- 印出編號、最晚時間
+  select ifnull(LastNumber, 0) + 1 yournumber, ifnull(wait + 190 * (count(series_id) -1) - unix_timestamp(now()), 0) waiting
+  from Waitinglist 
+  where series_id = p_series_id and number < ifnull(LastNumber, 0) + 2
+  order by wait desc;
 end ;;
 delimiter;

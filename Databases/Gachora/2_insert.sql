@@ -515,7 +515,7 @@ VALUES
     (1, 4, 200, 1697888888, 1697899999),
     (1, 5, 200, 1697666666, 1697888888);
 
-INSERT INTO Waitinglist (series_id, user_id, number, time)
+INSERT INTO Waitinglist (series_id, user_id, number, wait)
 VALUES
 (3, 1, 1, 1697888888),
 (3, 2, 2, null);

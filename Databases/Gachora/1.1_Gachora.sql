@@ -1384,14 +1384,14 @@ CREATE TABLE `Waitinglist` (
   `series_id` int(10) UNSIGNED NOT NULL COMMENT '系列id',
   `user_id` int(10) UNSIGNED DEFAULT NULL COMMENT '會員id',
   `number` smallint(5) UNSIGNED NOT NULL DEFAULT 1 COMMENT '等待編號',
-  `time` bigint(20) DEFAULT NULL COMMENT '開抽時間'
+  `wait` bigint(20) DEFAULT NULL COMMENT '開抽時間'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- 傾印資料表的資料 `Waitinglist`
 --
 
-INSERT INTO `Waitinglist` (`series_id`, `user_id`, `number`, `time`) VALUES
+INSERT INTO `Waitinglist` (`series_id`, `user_id`, `number`, `wait`) VALUES
 (3, 1, 1, 1697888888),
 (3, 2, 2, NULL);
 
