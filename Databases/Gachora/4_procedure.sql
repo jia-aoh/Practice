@@ -57,7 +57,7 @@ begin
 select sum(gash) gash from 
 (select sum(g.gash) gash from bill b 
 left join Gash g on b.gash_id = g.id
-where b.update_at > b.create_at
+where b.update_at is not null
 and b.user_id = p_user_id
 group by b.user_id
 union all

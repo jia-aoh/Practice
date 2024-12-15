@@ -139,7 +139,7 @@ begin
   from(
     select character_id 
     from Records 
-    where wait = p_time
+    where time = p_time
   )as r
   left join Characters c on r.character_id = c.id 
   group by c.id;
@@ -164,11 +164,11 @@ flag: begin
   declare PricePerProduct int;
   declare RandomCharacterId int;
   declare StockRemain int;
-  -- 查詢餘額
+  -- 查詢餘額 00 前php要給purchase(number, series, time)
   call GetPricePerProductBySeriesId(p_series_id, PricePerProduct);
   call GetGashNowByIdOutRemain(p_user_id, RemainGash);
   if RemainGash < (p_purchase_id * PricePerProduct) then 
-    select 'Insufficient Gachora Point. Please top up your account.' as error;
+    select 'G Point not enough. Please buy points.' as error;
     leave flag;
   end if;
   -- 獲取機台剩餘數量
@@ -186,7 +186,7 @@ flag: begin
   for update;
   -- 若購買數>剩餘，回彈"機台剩餘不足，修改選購數量"
   if p_purchase_id > RemainProduct then 
-    select 'Insufficient products in machine. Please adjust your purchase quantity.' as error;
+    select 'Products not enough. Please adjust quantity.' as error;
     rollback;
     leave flag;
   end if;
@@ -249,16 +249,21 @@ create procedure SeeWaitTime(in p_series_id int, in p_number_id int)
 begin 
   declare RemainTime int;
   -- 剩多少時間
-  select wait + 190 * (count(series_id) -1) - unix_timestamp(now()) into RemainTime
+  select wait + 180 * (count(series_id) -1) - unix_timestamp(now()) into RemainTime
   from Waitinglist 
   where series_id = p_series_id and number < p_number_id + 1
   order by wait desc;
-  -- 超過時間處理
-  if RemainTime < -190 then
-    call DeleteWaiting(p_series_id, p_number_id);
-    select 'times up' as error;
-  else 
-    select RemainTime as times;
+    -- 還要等
+    if RemainTime > 0 then 
+      select p_number_id as yournumber, RemainTime as waiting;
+    -- 開始抽，刪除過號
+    elseif RemainTime <= 0 then 
+      call DeleteWaiting(p_series_id, p_number_id - 1);
+      select p_number_id as yournumber, RemainTime as waiting;
+    -- 超時
+    elseif RemainTime < -190 then
+      call DeleteWaiting(p_series_id, p_number_id);
+      select 'times up' as error;
   end if;
 end ;;
 delimiter;
@@ -269,6 +274,7 @@ delimiter ;;
 create procedure DeleteWaiting( in p_series_id int, in p_number_id int)
 begin 
   declare WhosFirst int;
+  declare HasTime int;
 
   delete from Waitinglist 
   where series_id = p_series_id and number <= p_number_id;
@@ -279,7 +285,11 @@ begin
   order by number 
   limit 1;
 
-  if p_number_id < WhosFirst then
+  select wait into HasTime
+  from Waitinglist
+  where number = WhosFirst;
+
+  if HasTime = 0 and p_number_id < WhosFirst then
     update Waitinglist 
     set wait = unix_timestamp(now())
     where number = WhosFirst;
@@ -287,8 +297,6 @@ begin
   -- 中離不改第一位時間
 end ;;
 delimiter;
-
-
 
 -- 一番賞排隊
 drop procedure if exists LineUp;
@@ -298,13 +306,14 @@ flag:begin
   declare ListNumbers int;
   declare UserExists int;
   declare LastNumber int;
+  declare p_number_id int;
 
 -- 會員點排隊
 -- 查有沒有排隊紀錄
   select count(series_id) into ListNumbers
   from Waitinglist 
   where series_id = p_series_id;
-  -- 不是第一位
+
   if ListNumbers > 0 then 
     select count(series_id) into UserExists
     from Waitinglist
@@ -316,10 +325,13 @@ flag:begin
       where series_id = p_series_id
       order by number desc
       limit 1;
-      call GetInLine(p_series_id, p_user_id, LastNumber + 1, null);
+      call GetInLine(p_series_id, p_user_id, LastNumber + 1, 0);
     -- 重排不理
     else 
-      select 'You are already in line.' as error;
+      select number into p_number_id
+      from Waitinglist
+      where series_id = p_series_id and user_id = p_user_id;
+      call SeeWaitTime(p_series_id, p_number_id);
       leave flag;
     end if;
   else
@@ -333,3 +345,43 @@ flag:begin
   order by wait desc;
 end ;;
 delimiter;
+
+-- 到帳
+drop procedure if exists GashHasIn;
+delimiter ;;
+create procedure GashHasIn(in p_user_id int, in p_time int, in p_gash_id int)
+begin 
+  update Bill
+  set update_at = p_time
+  where id = (
+    select id 
+    from Bill
+    where user_id = p_user_id
+    and gash_id = p_gash_id
+    and update_at is null
+    order by create_at
+    limit 1
+    );
+end ;;
+delimiter;
+
+-- 儲值
+drop procedure if exists TopUpGash;
+delimiter ;;
+create procedure TopUpGash(in p_user_id int, in p_time int, in p_gash_id int)
+begin 
+  insert into Bill(user_id, create_at, gash_id)
+  values (p_user_id, p_time, p_gash_id);
+  call GashHasIn(p_user_id, p_time, p_gash_id);
+  select 'done' as error;
+end ;;
+delimiter;
+
+-- 一番賞
+-- drop procedure if exists PlayIchiban;
+-- delimiter ;;
+-- create procedure PlayIchiban (in p_series_id int, in p_number int, )
+-- begin 
+
+-- end ;;
+-- delimiter;
