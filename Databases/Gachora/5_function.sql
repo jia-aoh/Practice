@@ -224,7 +224,7 @@ flag: begin
   if StockRemain > 0 then
     call Refill(p_series_id);
     update Series 
-    set stock = stock - 1 
+    set stock = stock - 1, end_time = p_time
     where id = p_series_id;
     select 'refill done' as error;
     commit;
@@ -377,11 +377,81 @@ begin
 end ;;
 delimiter;
 
--- 一番賞
--- drop procedure if exists PlayIchiban;
--- delimiter ;;
--- create procedure PlayIchiban (in p_series_id int, in p_number int, )
--- begin 
+一番賞
+drop procedure if exists PlayIchiban;
+delimiter ;;
+create procedure PlayIchiban (
+  in p_series_id int, 
+  in p_number int, 
+  in p_purchase int, 
+  in p_label text, 
+  in p_time int
+)
+flag:begin 
+  declare i int default 0;
+  declare PricePerProduct int;
+  declare RemainGash int;
+  declare RandomCharacterId int;
+  declare p_user_id int;
+  declare RemainProductEnd int;
+  declare StockRemain int;
+  declare LabelValue text;
+  -- 查詢餘額
+  start transaction;
+  call GetPricePerProductBySeriesId(p_series_id, PricePerProduct);
+  call GetGashNowByIdOutRemain(p_user_id, RemainGash);
+  if RemainGash < (p_purchase * PricePerProduct) then 
+    select 'G Point not enough. Please buy points.' as error;
+    rollback;
+    leave flag;
+  end if;
+  -- 要確認為最小號碼?
+  -- text變array
+  -- set @labels_array = split(p_label, ',');
+  -- 隨機生成
+  while i < p_purchase do 
+    set LabelValue = cast(json_unquote(json_extract(p_label, concat('$[', i ,']'))) as unsigned);
+    call rand(p_series_id, RandomCharacterId);
+    -- 扣機台
+    call MinusOneFromMachine(RandomCharacterId);
+    -- 生成對應p_user_id from number
+    select user_id into p_user_id
+    from Waitinglist
+    where number = p_number and series_id = p_series_id;
+    -- 加入record
+    call AddRecord(p_user_id, RandomCharacterId, p_time, LabelValue);
+    set i = i + 1;
+  end while;
+  call PrintResult(p_time);
+  -- 有剩離開
+  -- call GetMachineRemain(p_series_id, RemainProductEnd) for update;
+  select sum(m.remain) into RemainProductEnd
+  from(
+      select id
+  	  from Series 
+  	  where id = p_series_id
+  )as s 
+  left join Characters c on s.id = c.series_id
+  left join Machine m on c.id = m.character_id
+  group by series_id 
+  for update;
+  if RemainProductEnd > 0 then 
+    -- select 'done, still remain' as error;
+    commit;
+    leave flag;
+  end if;
+  -- 沒剩如果庫存 > 0補機台
+  select stock into StockRemain from Series where id = p_series_id;
+  if StockRemain > 0 then
+    call Refill(p_series_id);
+    update Series 
+    set stock = stock - 1,  end_time = p_time
+    where id = p_series_id;
+    -- select 'refill done' as error;
+    commit;
+    leave flag;
+  end if;
+end ;;
+delimiter;
 
--- end ;;
--- delimiter;
+
