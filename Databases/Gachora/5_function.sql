@@ -10,11 +10,11 @@ begin
   if record_exists > 0 then
     delete from `Collection` 
     where user_id = p_user_id and series_id = p_series_id;
-    select 'You had deleted collection successfully.';
+    select false;
   else
     insert into `Collection` (user_id, series_id)
     values (p_user_id, p_series_id);
-    select 'You had add into collection successfully.';
+    select true;
   end if;
 end ;;
 delimiter;
@@ -190,6 +190,12 @@ flag: begin
     rollback;
     leave flag;
   end if;
+  -- 看有無禮金
+  call SeeGift(p_user_id, p_time, RemainGift);
+  if RemainGift > 0 then 
+    -- 扣禮金
+    call AdjustGift(p_user_id, p_time, RemainGift);
+  end if;
   -- 足->隨機生成
   while i < p_purchase_id do 
     call rand(p_series_id, RandomCharacterId);
@@ -249,7 +255,7 @@ create procedure SeeWaitTime(in p_series_id int, in p_number_id int)
 begin 
   declare RemainTime int;
   -- 剩多少時間
-  select wait + 180 * (count(series_id) -1) - unix_timestamp(now()) into RemainTime
+  select wait + 190 * (count(series_id) -1) - unix_timestamp(now()) into RemainTime
   from Waitinglist 
   where series_id = p_series_id and number < p_number_id + 1
   order by wait desc;
@@ -377,7 +383,62 @@ begin
 end ;;
 delimiter;
 
-一番賞
+-- 查看有無禮金
+drop procedure if exists SeeGift;
+delimiter ;;
+create procedure SeeGift(in p_user_id int, in p_time int, out RemainGift int)
+begin 
+  select sum(amount) into RemainGift
+  from Gift 
+  where user_id = p_user_id and p_time < expire_at;
+end ;;
+delimiter;
+
+-- 先扣禮金
+drop procedure if exists AdjustGift;
+delimiter ;;
+create procedure AdjustGift(
+  in p_user_id int, 
+  in p_time int, 
+  in p_price int
+)
+begin 
+  declare done int default false;
+  declare amounts int;
+  declare cur cursor for select amount from Gift 
+  where user_id = p_user_id and expire_at > p_time
+  order by expire_at;
+  declare continue handler for not found set done = true;
+
+  open cur;
+  flag: loop
+    fetch cur into amounts;
+    if done then 
+      leave flag;
+    end if;
+    if amounts <= p_price then 
+      set p_price = p_price - amounts;
+      update Gift 
+      set amount = 0 
+      where user_id = p_user_id 
+      and amount = amounts
+      and expire_at > p_time
+      limit 1;
+    else 
+      update Gift 
+      set amount = amount - p_price
+      where user_id = p_user_id 
+      and expire_at > p_time
+      and amount = amounts
+      limit 1;
+      leave flag;
+    end if;
+  end loop;
+  close cur;
+end ;;
+delimiter;
+
+-- 一番賞
 drop procedure if exists PlayIchiban;
 delimiter ;;
 create procedure PlayIchiban (
@@ -396,15 +457,29 @@ flag:begin
   declare RemainProductEnd int;
   declare StockRemain int;
   declare LabelValue text;
+  declare RemainGift int;
   -- 查詢餘額
   start transaction;
+  
+
   call GetPricePerProductBySeriesId(p_series_id, PricePerProduct);
+  -- 生成對應p_user_id from number
+  select user_id into p_user_id
+  from Waitinglist
+  where number = p_number and series_id = p_series_id;
   call GetGashNowByIdOutRemain(p_user_id, RemainGash);
   if RemainGash < (p_purchase * PricePerProduct) then 
     select 'G Point not enough. Please buy points.' as error;
     rollback;
     leave flag;
   end if;
+  -- 看有無禮金
+  call SeeGift(p_user_id, p_time, RemainGift);
+  if RemainGift > 0 then 
+  -- 扣禮金
+    call AdjustGift(p_user_id, p_time, RemainGift);
+  end if;
+
   -- 要確認為最小號碼?
   -- text變array
   -- set @labels_array = split(p_label, ',');
@@ -414,10 +489,6 @@ flag:begin
     call rand(p_series_id, RandomCharacterId);
     -- 扣機台
     call MinusOneFromMachine(RandomCharacterId);
-    -- 生成對應p_user_id from number
-    select user_id into p_user_id
-    from Waitinglist
-    where number = p_number and series_id = p_series_id;
     -- 加入record
     call AddRecord(p_user_id, RandomCharacterId, p_time, LabelValue);
     set i = i + 1;
@@ -454,4 +525,89 @@ flag:begin
 end ;;
 delimiter;
 
+drop procedure if exists GetWaitTimeById;
+delimiter ;;
+create procedure GetWaitTimeById(in p_user_id int)
+begin 
+  create temporary table if not exists MyWaitList(
+    series_id int, 
+    number int
+  );
+  insert into MyWaitList(series_id, number)
+  select series_id, number
+  from Waitinglist 
+  where user_id = p_user_id;
 
+  select m.series_id, s.name series_name, m.number, (wait + 190 * (COUNT(w.series_id) - 1) - UNIX_TIMESTAMP(NOW())) waiting
+  from Waitinglist w
+  left join MyWaitList m on w.series_id = m.series_id
+  left join Series s on w.series_id = s.id
+  where w.number < m.number + 1
+  group by m.series_id
+  order by waiting;
+end ;;
+delimiter;
+
+-- 換status
+drop procedure if exists ChangeStatusByIdAndStatus;
+delimiter ;;
+create procedure ChangeStatusByIdAndStatus (in p_record_id int, in p_status_id int)
+begin 
+  update Records 
+  set status_id = p_status_id
+  where id = p_record_id;
+end ;;
+delimiter;
+
+-- 禮過期處理 if gift now > expiredate, update_at < expire
+drop procedure if exists ExpireGiftToG;
+delimiter ;;
+create procedure ExpireGiftToG (in p_user_id int, in p_time int)
+begin 
+  declare p_gash int;
+  declare probable_time int;
+
+
+  update Gift 
+  set update_at = p_time
+  where expire_at > update_at;
+  -- 把剩餘填到toG
+  create temporary table if not exists MyExpireList(
+    character_id int, 
+    amount int
+  );
+  insert into MyExpireList(amount, character_id)
+  select amount, category_id + 10
+  from Gift 
+  where update_at = p_time;
+
+  start transaction;
+
+  select sum(amount) into p_gash
+  from MyExpireList;
+
+  if p_gash = 0 then
+    rollback;
+  end if;
+ 
+  select expire_at - 2678400 into probable_time
+  from Gift 
+  where update_at = p_time
+  order by expire_at
+  limit 1;
+
+  insert into ToG(gash, record_id, time)
+  select amount, r.record_id, p_time
+  from MyExpireList m
+  join
+    (
+    select id record_id, character_id
+    from Records
+    where user_id = p_user_id 
+    and character_id in (14, 15) 
+    and time > probable_time
+    ) as r
+  on m.character_id = r.character_id;
+  commit;
+end ;;
+delimiter;

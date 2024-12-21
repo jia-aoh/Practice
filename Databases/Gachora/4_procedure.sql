@@ -88,7 +88,7 @@ begin
 select sum(gash) into p_remaingash from 
 (select sum(g.gash) gash from bill b 
 left join Gash g on b.gash_id = g.id
-where b.update_at > b.create_at
+where b.update_at is not null
 and b.user_id = p_user_id
 group by b.user_id
 union all
@@ -191,22 +191,33 @@ drop view if exists vw_AllMyGiftRecords;
 create view vw_AllMyGiftRecords as select r.user_id user_id, r.record_id, category, series_title, series_name, character_name, character_img, 0 price, t.gash gift, prize, status, t.time
 from 
 (select record_id, gash, time from ToG) as t
-left join vw_AllMyRecords r on t.record_id = r.record_id
+left join vw_AllMyRecords r on t.record_id = r.record_id;
 
 drop procedure if EXISTS GetUserWalletRecordById;
 delimiter ;;
 create procedure GetUserWalletRecordById(in p_user_id int)
 begin
-select category, series_name, (price * -1) price, time, count(character_name) amount from vw_AllMyRecords where user_id = p_user_id group by character_name
+select category, series_name, (price * -1) price, time, count(character_name) amount 
+from vw_AllMyRecords 
+where user_id = p_user_id group by character_name
 union all 
-select '兌換G幣' category, series_name, gift price, time, count(character_name) amount from vw_AllMyGiftRecords where user_id = p_user_id group by character_name
+select '兌換G幣' category, series_name, gift price, time, count(character_name) amount 
+from vw_AllMyGiftRecords 
+where user_id = p_user_id group by character_name
 union all
-select '禮金回收' category, '過期禮金回收' series_name, (amount * -1) price, update_at time, 1 amount from gift 
-where user_id = p_user_id and expire_at < UNIX_TIMESTAMP(NOW())
+select '禮金回收' category, '過期禮金回收' series_name, gash price, time, 1 amount 
+from
+  (
+  select id
+  from Records 
+  where user_id = p_user_id and character_id in (14, 15)
+  )as r
+left join ToG t on r.id = t.record_id
 union all
 select '儲值' category, '儲值G幣' series_name, g.gash price, update_at time, 1 amount from bill b
 left join Gash g on b.gash_id = g.id
-where update_at is not null and  user_id = p_user_id;
+where update_at is not null and  user_id = p_user_id
+order by time;
 end ;;
 delimiter;
 
@@ -240,7 +251,7 @@ create procedure GetUserinfoById(in p_user_id int)
 begin 
 select u.id, name, email, phone, birth, concat(co.zipcode, ci.city, co.county, u.road) address, credit, recommend
 from 
-(SELECT id, name, email, phone, birth, county_id, road, right(credit, 4) credit, concat('GCR', id, FLOOR(RAND() * 900) + 100) recommend FROM `Users` WHERE id = p_user_id) as u
+(SELECT id, name, email, phone, birth, county_id, road, right(credit, 4) credit, concat('GCR', id, '657') recommend FROM `Users` WHERE id = p_user_id) as u
 left join County co on u.county_id = co.id
 left join City ci on co.city_id = ci.id;
 end ;;
