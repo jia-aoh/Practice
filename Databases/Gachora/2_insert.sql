@@ -404,7 +404,21 @@ VALUES
     ('海賊王系列第一蛋'),
     ('企鵝家族系列第一蛋'),
     ('海賊王系列第二彈'),
-    ('海賊王系列第三彈');
+    ('海賊王系列第三彈'),
+    ('極上壽司篇'),
+    ('咒術迴戰跳躍公仔'),
+    ('關東煮系列蝸牛'),
+    ('航海王-偉大航道'),
+    ('Kirby - 星之卡比'),
+    ('三麗鷗角色'),
+    ('絨毛公仔'),
+    ('HUNTER×HUNTER獵人坐下隊第三彈'),
+    ('HUNTER×HUNTER獵人坐姿隊第四彈'),
+    ('HUNTER×HUNTER獵人坐姿隊第二彈'),
+    ('埃及神X海賊王'),
+    ('悲觀第一蛋'),
+    ('海賊王永久指針第一蛋'),
+    ('泡泡瑪特-魔力卡丁車第一彈');
 
 INSERT INTO Users (name, email, password, phone, birth, county_id, road, credit, created_at, updated_at)
 VALUES 

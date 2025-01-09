@@ -32,7 +32,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `Address` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL COMMENT '會員id',
-  `title` varchar(5) DEFAULT NULL COMMENT '收件地識別標題or門市',
+  `title` varchar(15) DEFAULT NULL COMMENT '收件地識別標題or門市',
   `county_id` smallint(5) UNSIGNED NOT NULL COMMENT '城id',
   `road` varchar(25) NOT NULL COMMENT '路',
   `status_id` tinyint(3) UNSIGNED DEFAULT 13 COMMENT '常用id'
@@ -43,9 +43,9 @@ CREATE TABLE `Address` (
 --
 
 INSERT INTO `Address` (`id`, `user_id`, `title`, `county_id`, `road`, `status_id`) VALUES
-(1, 1, '家', 20, '鄉間小路1號', 13),
-(2, 1, '公司', 1, '康莊大道0號', 12);
-
+(1, 1, '家', 20, '鄉間小路1號', 12),
+(2, 1, '公司', 1, '康莊大道0號', 12),
+(3, 1, '273813,昌進門市', 103, '大進街387號1樓', 12);
 -- --------------------------------------------------------
 
 --
@@ -209,7 +209,105 @@ INSERT INTO `Characters` (`id`, `series_id`, `prize_id`, `name`, `material_id`, 
 (10, 4, 8, '茉莉汽水車', 9, 9, 8, 7, '/gachaItem/a14-8.jpg'),
 (11, 4, 9, '鴿子7號', 9, 9, 8, 7, '/gachaItem/a14-9.jpg'),
 (12, 4, 10, '隱藏版超級7號', 9, 9, 8, 7, '/gachaItem/a14-10.jpg'),
-(13, 4, 11, '隱藏版超級7號特別款', 9, 9, 8, 7, '/gachaItem/a14-11.jpg');
+(13, 4, 11, '隱藏版超級7號特別款', 9, 9, 8, 7, '/gachaItem/a14-11.jpg'),
+(77, 17, 1, '賽魯完全體', 6, 29, 29, 29, '/ichibanItem/a2-1.jpg'),
+(78, 17, 2, '特南克斯', 6, 23, 23, 23, '/ichibanItem/a2-2.jpg'),
+(79, 17, 3, '孫悟飯：未來', 6, 24, 24, 24, '/ichibanItem/a2-3.jpg'),
+(80, 17, 4, '貝吉塔', 6, 23, 23, 23, '/ichibanItem/a2-4.jpg'),
+(81, 17, 5, '撒旦先生', 6, 27, 27, 27, '/ichibanItem/a2-5.jpg'),
+(82, 17, 6, '橡膠立牌', 10, 8, 7, 6, '/ichibanItem/a2-7.jpg'),
+(83, 17, 7, '塑膠疊杯', 11, 9, 9, 9, '/ichibanItem/a2-8.jpg'),
+(84, 17, 8, '壓克力立牌', 12, 7, 7, 7, '/ichibanItem/a2-9.jpg'),
+(85, 18, 1, '漩渦鳴人', 6, 24, 24, 24, '/ichibanItem/a3-1.png'),
+(86, 18, 2, '宇智波佐助', 6, 24, 24, 24, '/ichibanItem/a3-2.png'),
+(87, 18, 3, '我愛羅', 6, 24, 24, 24, '/ichibanItem/a3-3.png'),
+(88, 18, 4, '宇智波鼬', 6, 25, 25, 25, '/ichibanItem/a3-4.png'),
+(89, 18, 5, '塑膠杯', 11, 12, 12, 12, '/ichibanItem/a3-5.png'),
+(90, 18, 6, '軟膠吊飾', 13, 42, 30, 1, '/ichibanItem/a3-6.png'),
+(91, 18, 7, '塑膠海報', 11, 25, 25, 25, '/ichibanItem/a3-7.png'),
+(92, 18, 19, '卡卡西', 6, 25, 25, 25, '/ichibanItem/a3-8.png'),
+(93, 19, 1, '喬魯諾·喬巴拿', 6, 24, 24, 24, '/ichibanItem/a4-1.jpg'),
+(94, 19, 2, '布魯諾·布加拉提', 6, 26, 26, 26, '/ichibanItem/a4-2.jpg'),
+(95, 19, 3, '葛德·米斯達', 6, 25, 25, 25, '/ichibanItem/a4-3.jpg'),
+(96, 19, 4, '納蘭迦·吉爾各', 6, 21, 21, 21,  '/ichibanItem/a4-4.jpg'),
+(97, 19, 5, '雷奧·阿帕基', 6, 27, 27, 27, '/ichibanItem/a4-5.jpg'),
+(98, 19, 6, '潘納科達·福葛', 6, 25, 25, 25, '/ichibanItem/a4-6.jpg'),
+(99, 19, 7, '特莉休·烏納', 6, 23, 23, 23, '/ichibanItem/a4-7.jpg'),
+(100, 19, 8, '熱情組織的徽章', 11, 2, 2, 2, '/ichibanItem/a4-8.jpg'),
+(101, 19, 9, '性感手槍桌上模型', 6, 3, 3, 3, '/ichibanItem/a4-9.jpg'),
+(167, 20, 1, '百貓紅蓮-巨大化MEGA版', 6, 80, 78, 72, '/ichibanItem/a1-1.jpg'),
+(168, 20, 2, '百貓紅蓮-植絨版', 6, 20, 18, 3, '/ichibanItem/a1-2.jpg'),
+(169, 20, 3, '百貓紅蓮-全身型態', 17, 32, 30, 24, '/ichibanItem/a1-3.jpg'),
+(170, 20, 4, '百貓虎王地毯', 16, 100, 90, 90, '/ichibanItem/a1-4.jpg'),
+(171, 20, 5, '百貓紅蓮Mini-招福版', 6, 13, 12, 10, '/ichibanItem/a1-5.jpg'),
+(172, 20, 6, '咬錢貓抱枕', 16, 52, 42, 42, '/ichibanItem/a1-6.jpg'),
+(173, 20, 7, '紅蓮皮件鑰匙圈', 15, 9, 9, 9, '/ichibanItem/a1-7.jpg'),
+(174, 20, 8, 'Monster Pilots 杯墊', 14, 9, 9, 9, '/ichibanItem/a1-8.jpg'),
+(102, 21, 1, '安妮亞 & 彭德 模型公仔', 4, 15, 15, 15, '/ichibanItem/a5-1.jpg'),
+(103, 21, 2, '豆豆眼公仔(全4種)', 4, 5, 5, 5, '/ichibanItem/a5-2.jpg'),
+(104, 21, 3, '地毯', 16, 60, 60, 1, '/ichibanItem/a5-3.jpg'),
+(105, 21, 4, '壓克力立牌', 12, 10, 10, 5, '/ichibanItem/a5-4.jpg'),
+(106, 21, 5, '收納包(一組二款)', 4, 15, 8, 8,'/ichibanItem/a5-5.jpg'),
+(107, 21, 6, '文具組合(全5種)', 18, 30, 21, 1, '/ichibanItem/a5-6.jpg'),
+(108, 21, 7, '橡膠吊牌(全8種)', 11, 10, 9, 1, '/ichibanItem/a5-7.jpg'),
+(109, 21, 8, 'A4透明文件夾和貼紙組(全10種)', 19, 30, 21, 1, '/ichibanItem/a5-8.jpg'),
+(110, 21, 9, '壓克力吊飾(全11種)', 12, 9, 9, 1, '/ichibanItem/a5-9.jpg'),
+(111, 21, 19, '安妮亞 & 彭德 模型公仔 珠光配色版', 4, 15, 15, 15, '/ichibanItem/a5-10.jpg'),
+(112, 22, 1, 'B2主題掛巾', 16, 72, 51, 1, '/ichibanItem/a6-1.jpg'),
+(113, 22, 2, '拉鍊包', 20, 20, 12, 12, '/ichibanItem/a6-2.jpg'),
+(114, 22, 3, '阿奎亞／星野愛久愛海 立牌', 12, 15, 15, 1, '/ichibanItem/a6-3.jpg'),
+(115, 22, 4, '露比／星野瑠美衣', 12, 13, 13, 1,'/ichibanItem/a6-4.jpg'),
+(116, 22, 5, '有馬佳奈 立牌', 12, 13, 13, 1, '/ichibanItem/a6-5.jpg'),
+(117, 22, 6, 'MEM 啾／MEM CHYO 立牌', 12, 13, 13, 1, '/ichibanItem/a6-6.jpg'),
+(118, 22, 7, '黑川茜 立牌 ', 12, 14, 14, 1, '/ichibanItem/a6-7.jpg'),
+(119, 22, 8, '壓克力鑰匙圈', 12, 5, 5, 1, '/ichibanItem/a6-8.jpg'),
+(120, 22, 9, 'A4資料夾&貼紙組', 19, 30, 21, 1, '/ichibanItem/a6-9.jpg'),
+(121, 22, 19, 'B5壓克力立牌', 12, 25, 18, 1, '/ichibanItem/a6-10.jpg'),
+(122, 23, 1, '小傑', 1, 13, 13, 13, '/ichibanItem/a7-1.jpg'),
+(123, 23, 2, '酷拉皮卡', 1, 13, 13, 13, '/ichibanItem/a7-2.jpg'),
+(124, 23, 3, '雷歐力', 1, 15, 15, 15, '/ichibanItem/a7-3.jpg'),
+(125, 23, 4, '蟻王 梅路艾姆', 1, 13, 13, 13, '/ichibanItem/a7-4.jpg'),
+(126, 23, 5, '貓女 尼飛彼多', 1, 13, 13, 13, '/ichibanItem/a7-5.jpg'),
+(127, 23, 6, '奇犽', 1, 13, 13, 13, '/ichibanItem/a7-6.jpg'),
+(128, 23, 7, '酷拉皮卡', 1, 13, 13, 13, '/ichibanItem/a7-7.jpg'),
+(129, 23, 8, '酷拉皮卡 泡麵蓋', 1, 10, 10, 10, '/ichibanItem/a7-8.jpg'),
+(130, 23, 9, '獵人系列景品(隨機一款)', 21, 5, 5, 5, '/ichibanItem/a7-9.jpg'),
+(131, 23, 19, '特賞 奇犽', 1, 13, 13, 13, '/ichibanItem/a7-aa.jpg'),
+(132, 24, 1, '佐野萬次郎', 1, 22, 22, 22, '/ichibanItem/a8-1.jpg'),
+(133, 24, 2, '佐野萬次郎2', 1, 22, 22, 22, '/ichibanItem/a8-2.jpg'),
+(134, 24, 3, '柴大壽', 1, 26, 26, 26, '/ichibanItem/a8-3.jpg'),
+(135, 24, 4, '乾青宗', 1 , 24, 24, 24, '/ichibanItem/a8-4.jpg'),
+(136, 24, 5, '九井一', 1, 24, 24, 24, '/ichibanItem/a8-5.jpg'),
+(137, 24, 6, '資料夾&貼紙(6種隨機)', 11, 7, 7, 7, '/ichibanItem/a8-6.jpg'),
+(138, 24, 7, '壓克力吊飾(10種隨機)', 12, 7, 7, 7, '/ichibanItem/a8-7.jpg'),
+(139, 24, 19, '特賞 三谷隆', 1, 23, 23, 23, '/ichibanItem/a8-aa.jpg'),
+(140, 25, 1, '佐野万次郎', 1, 23, 23, 23, '/ichibanItem/a9-1.jpg'),
+(141, 25, 2, '黒川伊佐那', 1, 23, 23, 23, '/ichibanItem/a9-2.jpg'),
+(142, 25, 3, '灰谷蘭', 1, 25, 25, 25, '/ichibanItem/a9-3.jpg'),
+(143, 25, 4, '灰谷竜膽', 1, 24, 24, 24, '/ichibanItem/a9-4.jpg'),
+(144, 25, 5, '壓克力立牌(九種隨機)', 12,  7, 7, 1,'/ichibanItem/a9-5.jpg'),
+(145, 25, 19, '特賞 黒川伊佐那', 1, 23, 23, 23, '/ichibanItem/a9-aa.jpg'),
+(146, 26, 1, '小櫻角色模型', 4, 15, 6, 6, '/ichibanItem/a10-1.webp'),
+(147, 26, 2, '魔法陣小鏡子', 23, 7, 7, 7, '/ichibanItem/a10-2.webp'),
+(148, 26, 3, '收納包', 24, 15, 5, 5, '/ichibanItem/a10-3.webp'),
+(149, 26, 4, '造型盤', 23, 10, 10, 10, '/ichibanItem/a10-4.webp'),
+(150, 26, 5, '可愛毛巾', 22, 10, 10, 1, '/ichibanItem/a10-5.webp'),
+(151, 27, 1, '角色壓克力板', 12, 20, 6, 1, '/ichibanItem/a11-1.webp'),
+(152, 27, 2, '伏黑惠公仔', 1, 20, 20, 20, '/ichibanItem/a11-2.webp'),
+(153, 27, 3, '虎杖悠仁公仔', 1, 20, 20, 20,'/ichibanItem/a11-3.webp'),
+(154, 27, 4, '文件夾貼紙組', 25, 20, 5, 1, '/ichibanItem/a11-4.webp'),
+(155, 27, 5, '角色毛巾', 22, 10, 10, 1, '/ichibanItem/a11-5.webp'),
+(156, 28, 1, '外帶造型陶瓷器', 26, 13, 12, 10, '/ichibanItem/a12-1.jpg'),
+(157, 28, 2, '丼型托特包', 31, 40, 20, 20, '/ichibanItem/a12-2.jpg'),
+(158, 28, 3, '紅薑盒造型收納盒', 4, 9, 7, 7,'/ichibanItem/a12-3.jpg'),
+(159, 28, 4, '環保袋(隨機)', 24, 20, 10, 10, '/ichibanItem/a12-4.jpg'),
+(160, 28, 5, '收納小包(隨機)', 24, 15, 5, 5, '/ichibanItem/a12-5.jpg'),
+(161, 28, 6, '手巾(隨機)', 22, 10, 10, 1, '/ichibanItem/a12-6.jpg'),
+(162, 29, 1, '凝結集團-黑荊棘套組', 27, 30, 30, 30, '/ichibanItem/a13-1.jpg'),
+(163, 29, 2, 'MOLLY 400% 聖誕2024', 28, 30, 30, 30, '/ichibanItem/a13-2.jpg'),
+(164, 29, 3, '凝結集團-蘆薈綠荊棘100%', 29, 8, 7, 7, '/ichibanItem/a13-3.jpg'),
+(165, 29, 4, 'MOLLY雙肩包', 7, 30, 26, 14, '/ichibanItem/a13-4.jpg'),
+(166, 29, 5, 'MOLLY冰箱貼', 30, 9, 8, 7, '/ichibanItem/a13-5.jpg');
 
 -- character id -76
 
@@ -754,8 +852,8 @@ CREATE TABLE `Logistics` (
 --
 
 INSERT INTO `Logistics` (`id`, `time`, `user_id`, `logistics_people_id`, `address_id`, `method_id`, `status_id`, `deliver_time`) VALUES
-(1, 1697735674, 1, 1, 2, 1, 7, '早上(09:00 ~ 12:00)'),
-(2, 1697620375, 1, 2, 1, 2, 8, '早上(09:00 ~ 12:00)');
+(1, 1697735674, 1, 3, 2, 1, 7, '早上(09:00 ~ 12:00)'),
+(2, 1697620375, 1, 3, 1, 1, 8, '早上(09:00 ~ 12:00)');
 
 -- --------------------------------------------------------
 
@@ -912,7 +1010,105 @@ INSERT INTO `Machine` (`id`, `character_id`, `remain`, `amount`) VALUES
 (70, 10, 3, 3),
 (71, 11, 2, 3),
 (72, 12, 1, 2),
-(73, 13, 0, 1);
+(73, 13, 0, 1),
+(74, 77, 1, 1),
+(75, 78, 1, 1),
+(76, 79, 1, 1),
+(77, 80, 1, 1),
+(78, 81, 1, 1),
+(79, 82, 12, 12),
+(80, 83, 7, 7),
+(81, 84, 6, 6),
+(82, 85, 1, 1),
+(83, 86, 1, 1),
+(84, 87, 1, 1),
+(85, 88, 1, 1),
+(86, 89, 6, 6),
+(87, 90, 6, 6), 
+(88, 91, 10, 10),
+(89, 92, 5, 5),
+(90, 93, 1, 1),
+(91, 94, 1, 1),
+(92, 95, 1, 1),
+(93, 96, 1, 1),
+(94, 97, 1, 1),
+(95, 98, 1, 1),
+(96, 99, 1, 1),
+(97, 100, 5, 5),
+(98, 101, 5, 5),
+(99, 167, 1, 1),
+(100, 168, 1, 1),
+(101, 169, 1, 1),
+(102, 170, 2, 2),
+(103, 171, 4, 4),
+(104, 172, 6, 6),
+(105, 173, 100, 100),
+(106, 174, 300, 300),
+(107, 102, 3, 3),
+(108, 103, 3, 3),
+(109, 104, 2, 2),
+(110, 105, 2, 2),
+(111, 106, 2, 2),
+(112, 107, 10, 10),
+(113, 108, 16, 16),
+(114, 109, 20, 20),
+(115, 110, 22, 22),
+(116, 115, 1, 1),
+(117, 112, 1, 1),
+(118, 113, 2, 2),
+(119, 114, 3, 3),
+(120, 115, 3, 3),
+(121, 116, 3, 3),
+(122, 117, 3, 3),
+(123, 118, 3, 3),
+(124, 119, 20, 20),
+(125, 120, 25, 25),
+(126, 121, 1, 1),
+(127, 122, 1, 1),
+(128, 123, 2, 2),
+(129, 124, 2, 2),
+(130, 125, 2, 2),
+(131, 126, 2, 2),
+(132, 127, 2, 2),
+(133, 128, 3, 3),
+(134, 129, 65, 65),
+(135, 130, 320, 320),
+(136, 131, 1, 1),
+(137, 132, 1, 1),
+(138, 133, 2, 2),
+(139, 134, 2, 2),
+(140, 135, 2, 2),
+(141, 136, 2, 2),
+(142, 137, 220, 220),
+(143, 138, 220, 220),
+(144, 139, 1, 1),
+(145, 140, 1, 1),
+(146, 141, 1, 1),
+(147, 142, 1, 1),
+(148, 143, 1, 1),
+(149, 144, 245, 245),
+(150, 145, 1, 1),
+(151, 146, 1, 1),
+(152, 147, 5, 5),
+(153, 148, 10, 10),
+(154, 149, 10, 10),
+(155, 150, 50, 50),
+(156, 151, 1, 1),
+(157, 152, 2, 2),
+(158, 153, 2, 2),
+(159, 154, 10, 10),
+(160, 155, 50, 50),
+(161, 156, 2, 2),
+(162, 157, 3, 3),
+(163, 158, 3, 3),
+(164, 159, 10, 10),
+(165, 160, 10, 10),
+(166, 161, 50, 50),
+(167, 162, 1, 1),
+(168, 163, 2, 2),
+(169, 164, 4, 4),
+(170, 165, 40, 40),
+(171, 166, 100, 100);
 
 -- --------------------------------------------------------
 
@@ -938,7 +1134,29 @@ INSERT INTO `Material` (`id`, `material`) VALUES
 (6, '樹脂'), 
 (7, '聚酯纖維'), 
 (8, 'PU'), 
-(9, '合金+PVC+ABS');
+(9, '合金+PVC+ABS'),
+(10, '橡膠'),
+(11, '塑膠'),
+(12, '壓克力'),
+(13, '軟膠'),
+(14, '馬口鐵'),
+(15, '義大利四方植鞣皮'),
+(16, '絨毛'),
+(17, '搪膠'),
+(18, '紙張'),
+(19, 'PP'),
+(20, '亞麻'),
+(21, '其他'),
+(22, '棉'),
+(23, '玻璃'),
+(24, '帆布'),
+(25, '銅版紙'),
+(26, '陶瓷'),
+(27, 'PVC+ABS+PC+Electronic Component'),
+(28, 'PVC+ABS+PC'),
+(29, 'PVC/ABS'),
+(30, '密度板/鋁箔/軟磁'),
+(31, '尼龍');
 
 -- --------------------------------------------------------
 
@@ -1017,7 +1235,14 @@ INSERT INTO `Prize` (`id`, `prize`) VALUES
 (9, 'I'),
 (10, 'J'),
 (11, 'K'),
-(12, 'L');
+(12, 'L'),
+(13, 'M'),
+(14, 'N'),
+(15, 'O'),
+(16, 'P'),
+(17, 'Q'),
+(18, 'R'),
+(19, 'S');
 
 -- --------------------------------------------------------
 
@@ -1063,30 +1288,44 @@ CREATE TABLE `Series` (
   `price_id` tinyint(3) UNSIGNED NOT NULL COMMENT '價格id',
   `stock` tinyint(3) UNSIGNED NOT NULL COMMENT '庫存',
   `release_time` bigint(20) DEFAULT NULL COMMENT '上架時間',
-  `end_time` bigint(20) DEFAULT NULL COMMENT '抽完、補貨時間'
+  `end_time` bigint(20) DEFAULT 0 COMMENT '抽完、補貨時間',
+  `series_label` enum('大人氣聯名IP區', '美味食物區', '動漫遊戲區', '動物世界區', '趣味惡搞區', '其他類型區', '鋼彈/擬真模型收藏區') DEFAULT NULL COMMENT '標籤'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- 傾印資料表的資料 `Series`
 --
 
-INSERT INTO `Series` (`id`, `category_id`, `name_title_id`, `name`, `theme_id`, `price_id`, `stock`, `release_time`) VALUES
-(1, 1, 15, '開宴會吧', 1, 3, 2, unix_timestamp(now())),
-(2, 1, 16, '海賊王悲觀鬼魂', 1, 3, 10, unix_timestamp(now())),
-(3, 1, 17, '永久指針', 1, 4, 10, unix_timestamp(now())),
-(4, 1, 18, 'MOLLY-魔力卡卡', 11, 6, 10, unix_timestamp(now())),
-(5, 4, NULL, '生日禮', NULL, 21, 1, NULL),
-(6, 5, NULL, '推薦禮', NULL, 21, 1, NULL),
-(7, 1, 7, '可愛蝸牛', 6, 1, 3, unix_timestamp(now())),
-(8, 1, 8, '遙遙不倒翁航海王船隻模型', 1, 5, 10, unix_timestamp(now())),
-(9, 1, 9, '探索遊戲公仔', 7, 2, 1, unix_timestamp(now())),
-(10, 1, 10, '角色貪吃公仔', 8, 3, 1, unix_timestamp(now())),
-(11, 1, 11, '昆蟲類絨毛公仔', 9, 2, 1, unix_timestamp(now())),
-(12, 1, 12, '獵人蟻王篇-嵌合蟻坐姿', 10, 2, 5, unix_timestamp(now())),
-(13, 1, 13, '獵人幻影旅團坐姿', 10, 2, 5, unix_timestamp(now())),
-(14, 1, 14, '獵人主角坐姿', 10, 2, 5, unix_timestamp(now())),
-(15, 1, 5, '海鮮壽司', 4, 1, 3, unix_timestamp(now())),
-(16, 1, 6, '咒術迴戰', 5, 2, 3, unix_timestamp(now()));
+INSERT INTO `Series` (`id`, `category_id`, `name_title_id`, `name`, `theme_id`, `price_id`, `stock`, `release_time`, `series_label`) VALUES
+(15, 1, 5, '海鮮壽司', 4, 1, 3, unix_timestamp(now()), '美味食物區'),
+(16, 1, 6, '咒術迴戰', 5, 2, 3, unix_timestamp(now()), '動漫遊戲區'),
+(7, 1, 7, '可愛蝸牛', 6, 1, 3, unix_timestamp(now()), '動物世界區'),
+(8, 1, 8, '遙遙不倒翁航海王船隻模型', 1, 5, 10, unix_timestamp(now()), '動漫遊戲區'),
+(9, 1, 9, '探索遊戲公仔', 7, 2, 1, unix_timestamp(now()), '大人氣聯名IP區'),
+(10, 1, 10, '角色貪吃公仔', 8, 3, 1, unix_timestamp(now()), '大人氣聯名IP區'),
+(11, 1, 11, '昆蟲類絨毛公仔', 9, 2, 1, unix_timestamp(now()), '動物世界區'),
+(12, 1, 12, '獵人蟻王篇-嵌合蟻坐姿', 10, 2, 5, unix_timestamp(now()), '動漫遊戲區'),
+(13, 1, 13, '獵人幻影旅團坐姿', 10, 2, 5, unix_timestamp(now()), '動漫遊戲區'),
+(14, 1, 14, '獵人主角坐姿', 10, 2, 5, unix_timestamp(now()), '動漫遊戲區'),
+(1, 1, 15, '開宴會吧', 1, 3, 2, unix_timestamp(now()), '動漫遊戲區'),
+(2, 1, 16, '海賊王悲觀鬼魂', 1, 3, 10, unix_timestamp(now()), '動漫遊戲區'),
+(3, 1, 17, '永久指針', 1, 4, 10, unix_timestamp(now()), '動漫遊戲區'),
+(5, 4, NULL, '生日禮', NULL, 21, 1, NULL, NULL),
+(6, 5, NULL, '推薦禮', NULL, 21, 1, NULL, NULL),
+(4, 1, 18, 'MOLLY-魔力卡卡', 11, 6, 10, unix_timestamp(now()), '大人氣聯名IP區'),
+(17, 2, 19, '未來的決鬪!!', 12, 5, 2, unix_timestamp(now()), '動漫遊戲區'),
+(18, 2, 20, '交織出火的意志', 13, 8, 4, unix_timestamp(now()), '動漫遊戲區'),
+(19, 2, 21, '黃金之風', 14, 2, 4, unix_timestamp(now()), '動漫遊戲區'),
+(20, 2, 22, '百貓紅蓮', 15, 10, 1, unix_timestamp(now()), '鋼彈/擬真模型收藏區'),
+(21, 2, 23, 'SPY×FAMILY間諜家家酒', 16, 3, 3, unix_timestamp(now()), '動漫遊戲區'),
+(22, 2, 24, 'MEM啾的時尚講座', 17, 3, 0, unix_timestamp(now()), '動漫遊戲區'),
+(23, 2, 25, '獵人特輯xx蟻王', 10, 4, 2, unix_timestamp(now()), '動漫遊戲區'),
+(24, 2, 26, '東京復仇者-聖夜決戰篇', 18, 4, 2, unix_timestamp(now()), '動漫遊戲區'),
+(25, 2, 27, '東京復仇者-聖夜決戰篇', 18, 4, 2, unix_timestamp(now()), '動漫遊戲區'),
+(26, 2, 28, '庫洛魔法使', 19, 3, 0, unix_timestamp(now()), '動漫遊戲區'),
+(27, 2, 29, '咒術廻戰', 5, 3, 0, unix_timestamp(now()), '動漫遊戲區'),
+(28, 2, 30, '吉野家', 20, 3, 0, unix_timestamp(now()), '其他類型區'),
+(29, 2, 31, '凝結集團-MOLLY聯名', 11, 8, 1, unix_timestamp(now()), '大人氣聯名IP區');
 
 -- seriesid -14
 
@@ -1107,36 +1346,61 @@ CREATE TABLE `SeriesImg` (
 --
 
 INSERT INTO `SeriesImg` (`id`, `series_id`, `img`) VALUES
-(1, 7, '/gachaItem/a1.jpg'),
-(2, 8, '/gachaItem/a2.webp'),
-(3, 9, '/gachaItem/a3.webp'),
-(4, 10, '/gachaItem/a4.jpg'),
-(5, 10, '/gachaItem/b4.jpg'),
-(6, 10, '/gachaItem/c4.jpg'),
-(7, 10, '/gachaItem/d4.jpg'),
-(8, 10, '/gachaItem/e4.jpg'),
-(9, 11, '/gachaItem/a5.jpg'),
-(10, 12, '/gachaItem/a6.jpg'),
-(11, 13, '/gachaItem/a7.jpg'),
-(12, 14, '/gachaItem/a8.jpg'),
-(13, 15, '/gachaItem/a9.jpg'),
-(14, 14, '/gachaItem/a8.jpg'),
-(15, 15, '/gachaItem/a9.jpg'),
-(16, 14, '/gachaItem/a8.jpg'),
-(17, 15, '/gachaItem/a9.jpg'),
-(18, 16, '/gachaItem/a10.jpg'),
-(19, 1, '/gachaItem/a11.png'),
-(20, 2, '/gachaItem/a12.png'),
-(21, 3, '/gachaItem/a13.png'),
-(22, 4, '/gachaItem/a14.jpg'),
-(23, 4, '/gachaItem/b14.jpg'),
-(24, 4, '/gachaItem/c14.jpg'),
-(25, 4, '/gachaItem/d14.jpg'),
-(26, 4, '/gachaItem/e14.jpg'),
-(27, 4, '/gachaItem/f14.jpg'),
-(28, 4, '/gachaItem/g14.jpg'),
-(29, 4, '/gachaItem/h14.jpg'),
-(30, 4, '/gachaItem/i14.jpg');
+(1, 15, '/gachaItem/a1.jpg'),
+(2, 16, '/gachaItem/a2.webp'),
+(3, 7, '/gachaItem/a3.webp'),
+(4, 8, '/gachaItem/a4.jpg'),
+(5, 8, '/gachaItem/b4.jpg'),
+(6, 8, '/gachaItem/c4.jpg'),
+(7, 8, '/gachaItem/d4.jpg'),
+(8, 8, '/gachaItem/e4.jpg'),
+(9, 9, '/gachaItem/a5.jpg'),
+(10, 10, '/gachaItem/a6.jpg'),
+(11, 11, '/gachaItem/a7.jpg'),
+(12, 12, '/gachaItem/a8.jpg'),
+(13, 13, '/gachaItem/a9.jpg'),
+(14, 14, '/gachaItem/a10.jpg'),
+(15, 1, '/gachaItem/a11.png'),
+(16, 2, '/gachaItem/a12.png'),
+(17, 3, '/gachaItem/a13.png'),
+(18, 4, '/gachaItem/a14.jpg'),
+(19, 4, '/gachaItem/b14.jpg'),
+(20, 4, '/gachaItem/c14.jpg'),
+(21, 4, '/gachaItem/d14.jpg'),
+(22, 4, '/gachaItem/e14.jpg'),
+(23, 4, '/gachaItem/f14.jpg'),
+(24, 4, '/gachaItem/g14.jpg'),
+(25, 4, '/gachaItem/h14.jpg'),
+(26, 4, '/gachaItem/i14.jpg'),
+(27, 17, '/ichibanItem/a2.jpg'),
+(28, 18, '/ichibanItem/a3.png'),
+(29, 19, '/ichibanItem/a4.jpg'),
+(30, 20, '/ichibanItem/a1.png'),
+(31, 20, '/ichibanItem/b1.png'),
+(32, 20, '/ichibanItem/c1.png'),
+(33, 21, '/ichibanItem/a5.jpg'),
+(34, 21, '/ichibanItem/b5.jpg'),
+(35, 21, '/ichibanItem/c5.jpg'),
+(36, 21, '/ichibanItem/d5.jpg'),
+(37, 21, '/ichibanItem/e5.jpg'),
+(38, 21, '/ichibanItem/f5.jpg'),
+(39, 22, '/ichibanItem/a6.jpg'),
+(40, 23, '/ichibanItem/a7.png'),
+(41, 24, '/ichibanItem/a8.jpg'),
+(42, 24, '/ichibanItem/b8.jpg'),
+(43, 25, '/ichibanItem/a9.jpg'),
+(44, 25, '/ichibanItem/b9.jpg'),
+(45, 26, '/ichibanItem/a10.webp'),
+(46, 27, '/ichibanItem/a11.webp'),
+(47, 28, '/ichibanItem/a12.png'),
+(48, 29, '/ichibanItem/a13.jpg'),
+(49, 29, '/ichibanItem/b13.jpg'),
+(50, 29, '/ichibanItem/c13.jpg'),
+(51, 29, '/ichibanItem/d13.jpg'),
+(52, 29, '/ichibanItem/e13.jpg'),
+(53, 29, '/ichibanItem/f13.jpg'),
+(54, 29, '/ichibanItem/g13.jpg');
+
 -- --------------------------------------------------------
 
 --
@@ -1170,7 +1434,20 @@ INSERT INTO `SeriesTitle` (`id`, `name_title`) VALUES
 (15, '埃及神X海賊王'),
 (16, '悲觀第一蛋'),
 (17, '海賊王永久指針第一蛋'),
-(18, '泡泡瑪特-魔力卡丁車第一彈');
+(18, '泡泡瑪特-魔力卡丁車第一彈'),
+(19, '七龍珠MASTERLISE'),
+(20, '火影忍者疾風傳'),
+(21, 'JOJO 的奇妙冒險'),
+(22, 'OFF ART-百貓異境系列'),
+(23, '劇場版CODE: White'),
+(24, '我推的孩子'),
+(25, 'HUNTER×HUNTER獵人特輯'),
+(26, '東京復仇者一番賞第二彈'),
+(27, '東京復仇者一番賞第一彈'),
+(28, '庫洛魔法使25週年'),
+(29, '咒術廻戰-澀谷事變'),
+(30, '吉野家限量聯名款'),
+(31, 'MEGA SPACE MOLLY 系列第一彈');
 
 -- --------------------------------------------------------
 
@@ -1251,7 +1528,16 @@ INSERT INTO `Theme` (`id`, `theme`) VALUES
 (8, '三麗鷗'), 
 (9, '絨毛昆蟲類'), 
 (10, '獵人'), 
-(11, 'POPMART 泡泡瑪特');
+(11, 'POPMART 泡泡瑪特'),
+(12, '七龍珠'),
+(13, '火影忍者'),
+(14, 'JOJO'),
+(15, '百貓異境'),
+(16, '間諜家家酒'),
+(17, '我推的孩子'),
+(18, '東京復仇者'),
+(19, '庫洛魔法使'),
+(20, '吉野家實用餐具');
 
 -- --------------------------------------------------------
 
@@ -1295,9 +1581,9 @@ CREATE TABLE `Users` (
 --
 
 INSERT INTO `Users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `phone`, `birth`, `county_id`, `road`, `credit`, `headphoto`, `created_at`, `updated_at`) VALUES
-(1, '嘎丘拉', 'gachora@qq.com', NULL, '1111', NULL, '0912345678', '2000-01-01', 1, '鄉間小路1段1號', '1234567887654321', NULL, '2023-10-11 20:02:44', '2023-10-24 01:22:44'),
-(2, '嘎丘羅', 'gachoro@qq.com', NULL, '2222', NULL, '0912346789', '2000-02-02', 2, '鄉間小路2段2號', '1234567887654322', NULL, '2023-10-19 22:29:24', '2023-10-24 01:06:04'),
-(3, '嘎丘爾', 'gachore@qq.com', NULL, '3333', NULL, '0912345789', '2000-03-03', 3, '鄉間小路3段3號', '1234567887654323', NULL, '2023-11-20 09:29:00', '2023-10-24 01:06:04');
+(1, '第一位pwd: alexalex', 'user1@qq.com', NULL, '$2y$12$jJmHoqr3D9FuE.mpJxFSbOs54zod4f4JOkoXt3hmsaPU0gr1bmsTu', NULL, '0912345678', '2000-01-01', 1, '鄉間小路1段1號', '1234567887654321', NULL, '2023-10-11 20:02:44', '2023-10-24 01:22:44'),
+(2, '第二位pwd: alexalex', 'user2@qq.com', NULL, '$2y$12$jJmHoqr3D9FuE.mpJxFSbOs54zod4f4JOkoXt3hmsaPU0gr1bmsTu', NULL, '0912346789', '2000-02-02', 2, '鄉間小路2段2號', '1234567887654322', NULL, '2023-10-19 22:29:24', '2023-10-24 01:06:04'),
+(3, '第三位pwd: alexalex', 'user3@qq.com', NULL, '$2y$12$jJmHoqr3D9FuE.mpJxFSbOs54zod4f4JOkoXt3hmsaPU0gr1bmsTu', NULL, '0912345789', '2000-03-03', 3, '鄉間小路3段3號', '1234567887654323', NULL, '2023-11-20 09:29:00', '2023-10-24 01:06:04');
 
 -- --------------------------------------------------------
 
@@ -1583,7 +1869,7 @@ CREATE TABLE `Waitinglist` (
 --
 DROP TABLE IF EXISTS `vw_allegg`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gachora`.`vw_allegg`  AS SELECT `s`.`id` AS `series_id`, `t`.`theme` AS `theme`, `st`.`name_title` AS `series_title`, `s`.`name` AS `name`, `p`.`price` AS `price`, count(`s`.`id`) AS `amount` FROM ((((`gachora`.`series` `s` left join `gachora`.`theme` `t` on(`s`.`theme_id` = `t`.`id`)) left join `gachora`.`price` `p` on(`s`.`price_id` = `p`.`id`)) left join `gachora`.`characters` `c` on(`s`.`id` = `c`.`series_id`)) left join `gachora`.`seriestitle` `st` on(`s`.`name_title_id` = `st`.`id`)) WHERE `s`.`category_id` = 1 GROUP BY `s`.`id` ORDER BY `s`.`stock` DESC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `Gachora`.`vw_allegg`  AS SELECT `s`.`id` AS `series_id`, `t`.`theme` AS `theme`, `st`.`name_title` AS `series_title`, `s`.`name` AS `name`, `p`.`price` AS `price`, count(`s`.`id`) AS `amount` FROM ((((`Gachora`.`series` `s` left join `Gachora`.`theme` `t` on(`s`.`theme_id` = `t`.`id`)) left join `Gachora`.`price` `p` on(`s`.`price_id` = `p`.`id`)) left join `Gachora`.`characters` `c` on(`s`.`id` = `c`.`series_id`)) left join `Gachora`.`seriestitle` `st` on(`s`.`name_title_id` = `st`.`id`)) WHERE `s`.`category_id` = 1 GROUP BY `s`.`id` ORDER BY `s`.`stock` DESC ;
 
 -- --------------------------------------------------------
 
@@ -1592,7 +1878,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_alleggwithdetail`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gachora`.`vw_alleggwithdetail`  AS SELECT `o`.`id` AS `series_id`, `gachora`.`theme`.`theme` AS `theme`, `gachora`.`seriestitle`.`name_title` AS `series_title`, `o`.`name` AS `name`, `gachora`.`price`.`price` AS `price`, count(`o`.`id`) AS `amount`, `o`.`rank` AS `rank`, `o`.`rare` AS `rare`, `o`.`release_time` AS `release_time` FROM (((((select `s`.`series_id` AS `id`,`gachora`.`series`.`name` AS `name`,`gachora`.`series`.`theme_id` AS `theme_id`,`gachora`.`series`.`name_title_id` AS `name_title_id`,`gachora`.`series`.`price_id` AS `price_id`,sum(`s`.`rank`) AS `rank`,sum(`s`.`rare`) AS `rare`,`gachora`.`series`.`release_time` AS `release_time` from ((select `c`.`series_id` AS `series_id`,count(`c`.`series_id`) AS `rank`,0 AS `rare` from (`gachora`.`records` `r` left join `gachora`.`characters` `c` on(`r`.`character_id` = `c`.`id`)) group by `c`.`series_id` union all select `gachora`.`series`.`id` AS `series_id`,0 AS `rank`,`gachora`.`series`.`stock` AS `rare` from `gachora`.`series`) `s` left join `gachora`.`series` on(`s`.`series_id` = `gachora`.`series`.`id`)) where `gachora`.`series`.`category_id` = 1 group by `s`.`series_id`) `o` left join `gachora`.`theme` on(`o`.`theme_id` = `gachora`.`theme`.`id`)) left join `gachora`.`seriestitle` on(`o`.`name_title_id` = `gachora`.`seriestitle`.`id`)) left join `gachora`.`price` on(`o`.`price_id` = `gachora`.`price`.`id`)) left join `gachora`.`characters` on(`o`.`id` = `gachora`.`characters`.`series_id`)) GROUP BY `o`.`id` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `Gachora`.`vw_alleggwithdetail`  AS SELECT `o`.`id` AS `series_id`, `Gachora`.`theme`.`theme` AS `theme`, `Gachora`.`seriestitle`.`name_title` AS `series_title`, `o`.`name` AS `name`, `Gachora`.`price`.`price` AS `price`, count(`o`.`id`) AS `amount`, `o`.`rank` AS `rank`, `o`.`rare` AS `rare`, `o`.`release_time` AS `release_time` FROM (((((select `s`.`series_id` AS `id`,`Gachora`.`series`.`name` AS `name`,`Gachora`.`series`.`theme_id` AS `theme_id`,`Gachora`.`series`.`name_title_id` AS `name_title_id`,`Gachora`.`series`.`price_id` AS `price_id`,sum(`s`.`rank`) AS `rank`,sum(`s`.`rare`) AS `rare`,`Gachora`.`series`.`release_time` AS `release_time` from ((select `c`.`series_id` AS `series_id`,count(`c`.`series_id`) AS `rank`,0 AS `rare` from (`Gachora`.`records` `r` left join `Gachora`.`characters` `c` on(`r`.`character_id` = `c`.`id`)) group by `c`.`series_id` union all select `Gachora`.`series`.`id` AS `series_id`,0 AS `rank`,`Gachora`.`series`.`stock` AS `rare` from `Gachora`.`series`) `s` left join `Gachora`.`series` on(`s`.`series_id` = `Gachora`.`series`.`id`)) where `Gachora`.`series`.`category_id` = 1 group by `s`.`series_id`) `o` left join `Gachora`.`theme` on(`o`.`theme_id` = `Gachora`.`theme`.`id`)) left join `Gachora`.`seriestitle` on(`o`.`name_title_id` = `Gachora`.`seriestitle`.`id`)) left join `Gachora`.`price` on(`o`.`price_id` = `Gachora`.`price`.`id`)) left join `Gachora`.`characters` on(`o`.`id` = `Gachora`.`characters`.`series_id`)) GROUP BY `o`.`id` ;
 
 -- --------------------------------------------------------
 
@@ -1601,7 +1887,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_allmygiftrecords`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gachora`.`vw_allmygiftrecords`  AS SELECT `r`.`user_id` AS `user_id`, `r`.`record_id` AS `record_id`, `r`.`category` AS `category`, `r`.`series_title` AS `series_title`, `r`.`series_name` AS `series_name`, `r`.`character_name` AS `character_name`, `r`.`character_img` AS `character_img`, 0 AS `price`, `t`.`gash` AS `gift`, `r`.`prize` AS `prize`, `r`.`status` AS `status`, `t`.`time` AS `time` FROM ((select `gachora`.`tog`.`record_id` AS `record_id`,`gachora`.`tog`.`gash` AS `gash`,`gachora`.`tog`.`time` AS `time` from `gachora`.`tog`) `t` left join `gachora`.`vw_allmyrecords` `r` on(`t`.`record_id` = `r`.`record_id`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `Gachora`.`vw_allmygiftrecords`  AS SELECT `r`.`user_id` AS `user_id`, `r`.`record_id` AS `record_id`, `r`.`category` AS `category`, `r`.`series_title` AS `series_title`, `r`.`series_name` AS `series_name`, `r`.`character_name` AS `character_name`, `r`.`character_img` AS `character_img`, 0 AS `price`, `t`.`gash` AS `gift`, `r`.`prize` AS `prize`, `r`.`status` AS `status`, `t`.`time` AS `time` FROM ((select `Gachora`.`tog`.`record_id` AS `record_id`,`Gachora`.`tog`.`gash` AS `gash`,`Gachora`.`tog`.`time` AS `time` from `Gachora`.`tog`) `t` left join `Gachora`.`vw_allmyrecords` `r` on(`t`.`record_id` = `r`.`record_id`)) ;
 
 -- --------------------------------------------------------
 
@@ -1610,7 +1896,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_allmyrecords`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gachora`.`vw_allmyrecords`  AS SELECT `r`.`user_id` AS `user_id`, `r`.`id` AS `record_id`, `ca`.`category` AS `category`, `st`.`name_title` AS `series_title`, `s`.`name` AS `series_name`, `r`.`character_id` AS `character_id`, `c`.`name` AS `character_name`, `c`.`img` AS `character_img`, `p`.`price` AS `price`, floor(`p`.`price` / 10) AS `gift`, `pz`.`prize` AS `prize`, `sta`.`id` AS `status_id`, `sta`.`status` AS `status`, `r`.`time` AS `time` FROM ((((((((select `gachora`.`records`.`id` AS `id`,`gachora`.`records`.`user_id` AS `user_id`,`gachora`.`records`.`label` AS `label`,`gachora`.`records`.`character_id` AS `character_id`,`gachora`.`records`.`status_id` AS `status_id`,`gachora`.`records`.`time` AS `time` from `gachora`.`records`) `r` left join `gachora`.`characters` `c` on(`r`.`character_id` = `c`.`id`)) left join `gachora`.`series` `s` on(`c`.`series_id` = `s`.`id`)) left join `gachora`.`price` `p` on(`s`.`price_id` = `p`.`id`)) left join `gachora`.`prize` `pz` on(`c`.`prize_id` = `pz`.`id`)) left join `gachora`.`seriestitle` `st` on(`s`.`name_title_id` = `st`.`id`)) left join `gachora`.`status` `sta` on(`r`.`status_id` = `sta`.`id`)) left join `gachora`.`category` `ca` on(`s`.`category_id` = `ca`.`id`)) ORDER BY `r`.`time` DESC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `Gachora`.`vw_allmyrecords`  AS SELECT `r`.`user_id` AS `user_id`, `r`.`id` AS `record_id`, `ca`.`category` AS `category`, `st`.`name_title` AS `series_title`, `s`.`name` AS `series_name`, `r`.`character_id` AS `character_id`, `c`.`name` AS `character_name`, `c`.`img` AS `character_img`, `p`.`price` AS `price`, floor(`p`.`price` / 10) AS `gift`, `pz`.`prize` AS `prize`, `sta`.`id` AS `status_id`, `sta`.`status` AS `status`, `r`.`time` AS `time` FROM ((((((((select `Gachora`.`records`.`id` AS `id`,`Gachora`.`records`.`user_id` AS `user_id`,`Gachora`.`records`.`label` AS `label`,`Gachora`.`records`.`character_id` AS `character_id`,`Gachora`.`records`.`status_id` AS `status_id`,`Gachora`.`records`.`time` AS `time` from `Gachora`.`records`) `r` left join `Gachora`.`characters` `c` on(`r`.`character_id` = `c`.`id`)) left join `Gachora`.`series` `s` on(`c`.`series_id` = `s`.`id`)) left join `Gachora`.`price` `p` on(`s`.`price_id` = `p`.`id`)) left join `Gachora`.`prize` `pz` on(`c`.`prize_id` = `pz`.`id`)) left join `Gachora`.`seriestitle` `st` on(`s`.`name_title_id` = `st`.`id`)) left join `Gachora`.`status` `sta` on(`r`.`status_id` = `sta`.`id`)) left join `Gachora`.`category` `ca` on(`s`.`category_id` = `ca`.`id`)) ORDER BY `r`.`time` DESC ;
 
 -- --------------------------------------------------------
 
@@ -1619,7 +1905,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_blingegg`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gachora`.`vw_blingegg`  AS SELECT `s`.`id` AS `series_id`, `t`.`theme` AS `theme`, `st`.`name_title` AS `series_title`, `s`.`name` AS `name`, `p`.`price` AS `price`, count(`s`.`id`) AS `amount` FROM ((((`gachora`.`series` `s` left join `gachora`.`theme` `t` on(`s`.`theme_id` = `t`.`id`)) left join `gachora`.`price` `p` on(`s`.`price_id` = `p`.`id`)) left join `gachora`.`characters` `c` on(`s`.`id` = `c`.`series_id`)) left join `gachora`.`seriestitle` `st` on(`s`.`name_title_id` = `st`.`id`)) WHERE `s`.`category_id` = 1 GROUP BY `s`.`id` ORDER BY `s`.`release_time` ASC LIMIT 0, 10 ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `Gachora`.`vw_blingegg`  AS SELECT `s`.`id` AS `series_id`, `t`.`theme` AS `theme`, `st`.`name_title` AS `series_title`, `s`.`name` AS `name`, `p`.`price` AS `price`, count(`s`.`id`) AS `amount` FROM ((((`Gachora`.`series` `s` left join `Gachora`.`theme` `t` on(`s`.`theme_id` = `t`.`id`)) left join `Gachora`.`price` `p` on(`s`.`price_id` = `p`.`id`)) left join `Gachora`.`characters` `c` on(`s`.`id` = `c`.`series_id`)) left join `Gachora`.`seriestitle` `st` on(`s`.`name_title_id` = `st`.`id`)) WHERE `s`.`category_id` = 1 GROUP BY `s`.`id` ORDER BY `s`.`release_time` ASC LIMIT 0, 10 ;
 
 -- --------------------------------------------------------
 
@@ -1628,7 +1914,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_detail`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gachora`.`vw_detail`  AS SELECT `s`.`id` AS `series_id`, `pz`.`prize` AS `prize`, `c`.`name` AS `character_name`, `c`.`img` AS `character_img`, concat(`c`.`size1`,'x',`c`.`size2`,'x',`c`.`size3`) AS `size`, `m`.`material` AS `material`, `ms`.`remain` AS `remain`, `ms`.`amount` AS `total` FROM ((((`gachora`.`series` `s` left join `gachora`.`characters` `c` on(`s`.`id` = `c`.`series_id`)) left join `gachora`.`material` `m` on(`c`.`material_id` = `m`.`id`)) left join `gachora`.`prize` `pz` on(`c`.`prize_id` = `pz`.`id`)) left join `gachora`.`machine` `ms` on(`c`.`id` = `ms`.`character_id`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `Gachora`.`vw_detail`  AS SELECT `s`.`id` AS `series_id`, `pz`.`prize` AS `prize`, `c`.`name` AS `character_name`, `c`.`img` AS `character_img`, concat(`c`.`size1`,'x',`c`.`size2`,'x',`c`.`size3`) AS `size`, `m`.`material` AS `material`, `ms`.`remain` AS `remain`, `ms`.`amount` AS `total` FROM ((((`Gachora`.`series` `s` left join `Gachora`.`characters` `c` on(`s`.`id` = `c`.`series_id`)) left join `Gachora`.`material` `m` on(`c`.`material_id` = `m`.`id`)) left join `Gachora`.`prize` `pz` on(`c`.`prize_id` = `pz`.`id`)) left join `Gachora`.`machine` `ms` on(`c`.`id` = `ms`.`character_id`)) ;
 
 -- --------------------------------------------------------
 
@@ -1637,7 +1923,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_eggcard`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gachora`.`vw_eggcard`  AS SELECT `s`.`id` AS `series_id`, `t`.`theme` AS `theme`, `st`.`name_title` AS `series_title`, `s`.`name` AS `name`, `p`.`price` AS `price`, count(`s`.`id`) AS `amount` FROM ((((`gachora`.`series` `s` left join `gachora`.`theme` `t` on(`s`.`theme_id` = `t`.`id`)) left join `gachora`.`price` `p` on(`s`.`price_id` = `p`.`id`)) left join `gachora`.`characters` `c` on(`s`.`id` = `c`.`series_id`)) left join `gachora`.`seriestitle` `st` on(`s`.`name_title_id` = `st`.`id`)) WHERE `s`.`category_id` = 1 GROUP BY `s`.`id` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `Gachora`.`vw_eggcard`  AS SELECT `s`.`id` AS `series_id`, `t`.`theme` AS `theme`, `st`.`name_title` AS `series_title`, `s`.`name` AS `name`, `p`.`price` AS `price`, count(`s`.`id`) AS `amount` FROM ((((`Gachora`.`series` `s` left join `Gachora`.`theme` `t` on(`s`.`theme_id` = `t`.`id`)) left join `Gachora`.`price` `p` on(`s`.`price_id` = `p`.`id`)) left join `Gachora`.`characters` `c` on(`s`.`id` = `c`.`series_id`)) left join `Gachora`.`seriestitle` `st` on(`s`.`name_title_id` = `st`.`id`)) WHERE `s`.`category_id` = 1 GROUP BY `s`.`id` ;
 
 -- --------------------------------------------------------
 
@@ -1646,7 +1932,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_eggcardimg`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gachora`.`vw_eggcardimg`  AS SELECT `s`.`id` AS `series_id`, `si`.`img` AS `series_img` FROM (`gachora`.`series` `s` left join `gachora`.`seriesimg` `si` on(`s`.`id` = `si`.`series_id`)) WHERE `s`.`category_id` = 1 ORDER BY `s`.`id` ASC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `Gachora`.`vw_eggcardimg`  AS SELECT `s`.`id` AS `series_id`, `si`.`img` AS `series_img` FROM (`Gachora`.`series` `s` left join `Gachora`.`seriesimg` `si` on(`s`.`id` = `si`.`series_id`)) WHERE `s`.`category_id` = 1 ORDER BY `s`.`id` ASC ;
 
 -- --------------------------------------------------------
 
@@ -1655,7 +1941,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_hotegg`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gachora`.`vw_hotegg`  AS SELECT `o`.`id` AS `series_id`, `gachora`.`theme`.`theme` AS `theme`, `gachora`.`seriestitle`.`name_title` AS `series_title`, `o`.`name` AS `name`, `gachora`.`price`.`price` AS `price`, count(`o`.`id`) AS `amount`, `o`.`rank` AS `rank` FROM (((((select `s`.`series_id` AS `id`,`gachora`.`series`.`name` AS `name`,`gachora`.`series`.`theme_id` AS `theme_id`,`gachora`.`series`.`name_title_id` AS `name_title_id`,`gachora`.`series`.`price_id` AS `price_id`,`s`.`rank` AS `rank` from ((select `c`.`series_id` AS `series_id`,count(`c`.`series_id`) AS `rank` from (`gachora`.`records` `r` left join `gachora`.`characters` `c` on(`r`.`character_id` = `c`.`id`)) group by `c`.`series_id` order by count(`c`.`series_id`) desc) `s` left join `gachora`.`series` on(`s`.`series_id` = `gachora`.`series`.`id`)) where `gachora`.`series`.`category_id` = 1) `o` left join `gachora`.`theme` on(`o`.`theme_id` = `gachora`.`theme`.`id`)) left join `gachora`.`seriestitle` on(`o`.`name_title_id` = `gachora`.`seriestitle`.`id`)) left join `gachora`.`price` on(`o`.`price_id` = `gachora`.`price`.`id`)) left join `gachora`.`characters` on(`o`.`id` = `gachora`.`characters`.`series_id`)) GROUP BY `o`.`id` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `Gachora`.`vw_hotegg`  AS SELECT `o`.`id` AS `series_id`, `Gachora`.`theme`.`theme` AS `theme`, `Gachora`.`seriestitle`.`name_title` AS `series_title`, `o`.`name` AS `name`, `Gachora`.`price`.`price` AS `price`, count(`o`.`id`) AS `amount`, `o`.`rank` AS `rank` FROM (((((select `s`.`series_id` AS `id`,`Gachora`.`series`.`name` AS `name`,`Gachora`.`series`.`theme_id` AS `theme_id`,`Gachora`.`series`.`name_title_id` AS `name_title_id`,`Gachora`.`series`.`price_id` AS `price_id`,`s`.`rank` AS `rank` from ((select `c`.`series_id` AS `series_id`,count(`c`.`series_id`) AS `rank` from (`Gachora`.`records` `r` left join `Gachora`.`characters` `c` on(`r`.`character_id` = `c`.`id`)) group by `c`.`series_id` order by count(`c`.`series_id`) desc) `s` left join `Gachora`.`series` on(`s`.`series_id` = `Gachora`.`series`.`id`)) where `Gachora`.`series`.`category_id` = 1) `o` left join `Gachora`.`theme` on(`o`.`theme_id` = `Gachora`.`theme`.`id`)) left join `Gachora`.`seriestitle` on(`o`.`name_title_id` = `Gachora`.`seriestitle`.`id`)) left join `Gachora`.`price` on(`o`.`price_id` = `Gachora`.`price`.`id`)) left join `Gachora`.`characters` on(`o`.`id` = `Gachora`.`characters`.`series_id`)) GROUP BY `o`.`id` ;
 
 -- --------------------------------------------------------
 
@@ -1664,7 +1950,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_ichiban`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gachora`.`vw_ichiban`  AS SELECT `s`.`id` AS `series_id`, `s`.`theme_id` AS `theme_id`, `t`.`theme` AS `theme`, `st`.`name_title` AS `series_title`, `s`.`name` AS `name`, `p`.`price` AS `price`, `s`.`release_time` AS `release_time`, `s`.`stock` AS `stock` FROM ((((`gachora`.`series` `s` left join `gachora`.`theme` `t` on(`s`.`theme_id` = `t`.`id`)) left join `gachora`.`price` `p` on(`s`.`price_id` = `p`.`id`)) left join `gachora`.`characters` `c` on(`s`.`id` = `c`.`series_id`)) left join `gachora`.`seriestitle` `st` on(`s`.`name_title_id` = `st`.`id`)) WHERE `s`.`category_id` = 2 GROUP BY `s`.`id` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `Gachora`.`vw_ichiban`  AS SELECT `s`.`id` AS `series_id`, `s`.`theme_id` AS `theme_id`, `t`.`theme` AS `theme`, `st`.`name_title` AS `series_title`, `s`.`name` AS `name`, `p`.`price` AS `price`, `s`.`release_time` AS `release_time`, `s`.`stock` AS `stock` FROM ((((`Gachora`.`series` `s` left join `Gachora`.`theme` `t` on(`s`.`theme_id` = `t`.`id`)) left join `Gachora`.`price` `p` on(`s`.`price_id` = `p`.`id`)) left join `Gachora`.`characters` `c` on(`s`.`id` = `c`.`series_id`)) left join `Gachora`.`seriestitle` `st` on(`s`.`name_title_id` = `st`.`id`)) WHERE `s`.`category_id` = 2 GROUP BY `s`.`id` ;
 
 -- --------------------------------------------------------
 
@@ -1673,7 +1959,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_ichibanimg`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gachora`.`vw_ichibanimg`  AS SELECT `s`.`id` AS `series_id`, `s`.`theme_id` AS `theme_id`, `si`.`img` AS `series_img` FROM (`gachora`.`series` `s` left join `gachora`.`seriesimg` `si` on(`s`.`id` = `si`.`series_id`)) WHERE `s`.`category_id` = 2 ORDER BY `s`.`id` ASC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `Gachora`.`vw_ichibanimg`  AS SELECT `s`.`id` AS `series_id`, `s`.`theme_id` AS `theme_id`, `si`.`img` AS `series_img` FROM (`Gachora`.`series` `s` left join `Gachora`.`seriesimg` `si` on(`s`.`id` = `si`.`series_id`)) WHERE `s`.`category_id` = 2 ORDER BY `s`.`id` ASC ;
 
 -- --------------------------------------------------------
 
@@ -1682,7 +1968,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_ichibanremaintotal`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gachora`.`vw_ichibanremaintotal`  AS SELECT `s`.`id` AS `series_id`, `s`.`theme_id` AS `theme_id`, sum(`m`.`remain`) AS `all_remain`, sum(`m`.`amount`) AS `all_amount` FROM ((`gachora`.`series` `s` left join `gachora`.`characters` `c` on(`s`.`id` = `c`.`series_id`)) left join `gachora`.`machine` `m` on(`c`.`id` = `m`.`character_id`)) WHERE `s`.`category_id` = 2 GROUP BY `s`.`id` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `Gachora`.`vw_ichibanremaintotal`  AS SELECT `s`.`id` AS `series_id`, `s`.`theme_id` AS `theme_id`, sum(`m`.`remain`) AS `all_remain`, sum(`m`.`amount`) AS `all_amount` FROM ((`Gachora`.`series` `s` left join `Gachora`.`characters` `c` on(`s`.`id` = `c`.`series_id`)) left join `Gachora`.`machine` `m` on(`c`.`id` = `m`.`character_id`)) WHERE `s`.`category_id` = 2 GROUP BY `s`.`id` ;
 
 -- --------------------------------------------------------
 
@@ -1691,7 +1977,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_newegg`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gachora`.`vw_newegg`  AS SELECT `s`.`id` AS `series_id`, `t`.`theme` AS `theme`, `st`.`name_title` AS `series_title`, `s`.`name` AS `name`, `p`.`price` AS `price`, count(`s`.`id`) AS `amount` FROM ((((`gachora`.`series` `s` left join `gachora`.`theme` `t` on(`s`.`theme_id` = `t`.`id`)) left join `gachora`.`price` `p` on(`s`.`price_id` = `p`.`id`)) left join `gachora`.`characters` `c` on(`s`.`id` = `c`.`series_id`)) left join `gachora`.`seriestitle` `st` on(`s`.`name_title_id` = `st`.`id`)) WHERE `s`.`category_id` = 1 GROUP BY `s`.`id` ORDER BY `s`.`release_time` DESC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `Gachora`.`vw_newegg`  AS SELECT `s`.`id` AS `series_id`, `t`.`theme` AS `theme`, `st`.`name_title` AS `series_title`, `s`.`name` AS `name`, `p`.`price` AS `price`, count(`s`.`id`) AS `amount` FROM ((((`Gachora`.`series` `s` left join `Gachora`.`theme` `t` on(`s`.`theme_id` = `t`.`id`)) left join `Gachora`.`price` `p` on(`s`.`price_id` = `p`.`id`)) left join `Gachora`.`characters` `c` on(`s`.`id` = `c`.`series_id`)) left join `Gachora`.`seriestitle` `st` on(`s`.`name_title_id` = `st`.`id`)) WHERE `s`.`category_id` = 1 GROUP BY `s`.`id` ORDER BY `s`.`release_time` DESC ;
 
 -- --------------------------------------------------------
 
@@ -1700,7 +1986,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_rareegg`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gachora`.`vw_rareegg`  AS SELECT `s`.`id` AS `series_id`, `t`.`theme` AS `theme`, `st`.`name_title` AS `series_title`, `s`.`name` AS `name`, `p`.`price` AS `price`, count(`s`.`id`) AS `amount` FROM ((((`gachora`.`series` `s` left join `gachora`.`theme` `t` on(`s`.`theme_id` = `t`.`id`)) left join `gachora`.`price` `p` on(`s`.`price_id` = `p`.`id`)) left join `gachora`.`characters` `c` on(`s`.`id` = `c`.`series_id`)) left join `gachora`.`seriestitle` `st` on(`s`.`name_title_id` = `st`.`id`)) WHERE `s`.`category_id` = 1 GROUP BY `s`.`id` ORDER BY `s`.`stock` ASC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `Gachora`.`vw_rareegg`  AS SELECT `s`.`id` AS `series_id`, `t`.`theme` AS `theme`, `st`.`name_title` AS `series_title`, `s`.`name` AS `name`, `p`.`price` AS `price`, count(`s`.`id`) AS `amount` FROM ((((`Gachora`.`series` `s` left join `Gachora`.`theme` `t` on(`s`.`theme_id` = `t`.`id`)) left join `Gachora`.`price` `p` on(`s`.`price_id` = `p`.`id`)) left join `Gachora`.`characters` `c` on(`s`.`id` = `c`.`series_id`)) left join `Gachora`.`seriestitle` `st` on(`s`.`name_title_id` = `st`.`id`)) WHERE `s`.`category_id` = 1 GROUP BY `s`.`id` ORDER BY `s`.`stock` ASC ;
 
 -- --------------------------------------------------------
 
@@ -1709,7 +1995,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_remaintotal`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gachora`.`vw_remaintotal`  AS SELECT `s`.`id` AS `series_id`, `pz`.`prize` AS `prize`, `c`.`name` AS `name`, `m`.`remain` AS `remain`, `m`.`amount` AS `amount` FROM (((`gachora`.`series` `s` left join `gachora`.`characters` `c` on(`s`.`id` = `c`.`series_id`)) left join `gachora`.`machine` `m` on(`c`.`id` = `m`.`character_id`)) left join `gachora`.`prize` `pz` on(`c`.`prize_id` = `pz`.`id`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `Gachora`.`vw_remaintotal`  AS SELECT `s`.`id` AS `series_id`, `pz`.`prize` AS `prize`, `c`.`name` AS `name`, `m`.`remain` AS `remain`, `m`.`amount` AS `amount` FROM (((`Gachora`.`series` `s` left join `Gachora`.`characters` `c` on(`s`.`id` = `c`.`series_id`)) left join `Gachora`.`machine` `m` on(`c`.`id` = `m`.`character_id`)) left join `Gachora`.`prize` `pz` on(`c`.`prize_id` = `pz`.`id`)) ;
 
 -- --------------------------------------------------------
 
@@ -1718,7 +2004,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_series_img`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gachora`.`vw_series_img`  AS SELECT `s`.`series_id` AS `series_id`, `s`.`img` AS `series_img` FROM `gachora`.`seriesimg` AS `s` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `Gachora`.`vw_series_img`  AS SELECT `s`.`series_id` AS `series_id`, `s`.`img` AS `series_img` FROM `Gachora`.`seriesimg` AS `s` ;
 
 -- --------------------------------------------------------
 
@@ -1727,7 +2013,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_theme`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gachora`.`vw_theme`  AS SELECT `c`.`series_id` AS `series_id`, `s`.`theme_id` AS `theme_id`, `s`.`category_id` AS `category_id` FROM ((`gachora`.`machine` `m` left join `gachora`.`characters` `c` on(`c`.`id` = `m`.`character_id`)) left join `gachora`.`series` `s` on(`s`.`id` = `c`.`series_id`)) WHERE `m`.`remain` > 0 GROUP BY `c`.`series_id` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `Gachora`.`vw_theme`  AS SELECT `c`.`series_id` AS `series_id`, `s`.`theme_id` AS `theme_id`, `s`.`category_id` AS `category_id` FROM ((`Gachora`.`machine` `m` left join `Gachora`.`characters` `c` on(`c`.`id` = `m`.`character_id`)) left join `Gachora`.`series` `s` on(`s`.`id` = `c`.`series_id`)) WHERE `m`.`remain` > 0 GROUP BY `c`.`series_id` ;
 
 --
 -- 已傾印資料表的索引

@@ -8,7 +8,7 @@ from vw_RemainTotal
 where series_id = p_series_id
 group by series_id;
 end $$ 
-delimiter;
+delimiter ;
 
 drop procedure if exists GetLabelById;
 delimiter ;;
@@ -17,7 +17,7 @@ begin
 select label from (select id, series_id from Characters c where series_id = p_series_id) as tmp
 left join Records r on tmp.id = r.character_id where time > (SELECT end_time FROM Series WHERE id = p_series_id);
 end ;;
-delimiter;
+delimiter ;
 
 drop procedure if exists GetGiftExpireDateById;
 delimiter ;;
@@ -27,7 +27,7 @@ select amount gift, expire_at from gift
 where user_id = p_user_id and expire_at > UNIX_TIMESTAMP(NOW())
 order by expire_at;
 end ;; 
-delimiter;
+delimiter ;
 
 drop procedure if exists GetRecordsByIdAndCategory;
 delimiter ;;
@@ -40,7 +40,7 @@ left join Series s on c.series_id = s.id
 where user_id = p_user_id and category_id = p_category_id
 group by c.img;
 end ;;
-delimiter;
+delimiter ;
 
 drop procedure if exists GetUserNameById;
 delimiter ;;
@@ -48,7 +48,7 @@ create procedure GetUserNameById(in p_user_id int)
 begin
 select name from Users where id = p_user_id;
 end ;; 
-delimiter;
+delimiter ;
 
 drop procedure if exists GetGashNowById;
 delimiter ;;
@@ -79,7 +79,7 @@ select sum(amount) * -1 gash from gift
 where user_id = p_user_id and unix_timestamp(now()) > expire_at
 group by user_id) as tmp;
 end ;;
-delimiter;
+delimiter ;
 
 drop procedure if exists GetGashNowByIdOutRemain;
 delimiter ;;
@@ -110,18 +110,18 @@ select sum(amount) * -1 gash from gift
 where user_id = p_user_id and unix_timestamp(now()) > expire_at
 group by user_id) as tmp;
 end ;;
-delimiter;
+delimiter ;
 
 drop procedure if exists GetPastAYearGashById;
 delimiter ;;
 create procedure GetPastAYearGashById(in p_user_id int)
 begin
-select sum(g.gash) gash 
+select sum(g.gash) gash_level
 from Bill b left join Gash g on b.gash_id = g.id  
 where user_id = p_user_id and b.update_at > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 1 YEAR))
 group by user_id;
 end ;;
-delimiter;
+delimiter ;
 
 drop procedure if exists GetCollectionNoByIdAndCategory;
 delimiter ;;
@@ -142,7 +142,7 @@ left join SeriesTitle st on tmp.name_title_id = st.id
 group by series_id) as tmp
 where remain = 0;
 end ;; 
-delimiter;
+delimiter ;
 
 drop procedure if exists GetCollectionHasByIdAndCategory;
 delimiter ;;
@@ -163,7 +163,7 @@ left join SeriesTitle st on tmp.name_title_id = st.id
 group by series_id) as tmp
 where remain > 0;
 end ;; 
-delimiter;
+delimiter ;
 
 drop procedure if exists GetSeriesImgById;
 delimiter ;;
@@ -173,7 +173,7 @@ select si.img from Series s
 left join SeriesImg si on s.id = si.series_id
 where s.id = p_series_id;
 end ;;
-delimiter;
+delimiter ;
 
 drop view if exists vw_AllMyRecords;
 create view vw_AllMyRecords as select r.user_id user_id, r.id record_id, ca.category, st.name_title series_title, s.name series_name, character_id ,c.name character_name, c.img character_img, p.price price, floor(p.price / 10) gift, pz.prize prize, sta.id status_id, sta.status, r.time
@@ -205,21 +205,16 @@ select '兌換G幣' category, series_name, gift price, time, count(character_nam
 from vw_AllMyGiftRecords 
 where user_id = p_user_id group by character_name
 union all
-select '禮金回收' category, '過期禮金回收' series_name, gash price, time, 1 amount 
-from
-  (
-  select id
-  from Records 
-  where user_id = p_user_id and character_id in (14, 15)
-  )as r
-left join ToG t on r.id = t.record_id
+select '禮金回收' category, '過期禮金回收' series_name, (amount * -1) price, expire_at time, 1 amount 
+from Gift 
+where user_id = p_user_id
 union all
 select '儲值' category, '儲值G幣' series_name, g.gash price, update_at time, 1 amount from bill b
 left join Gash g on b.gash_id = g.id
 where update_at is not null and  user_id = p_user_id
 order by time;
 end ;;
-delimiter;
+delimiter ;
 
 drop procedure if exists GetBagCartByIdAndStatus;
 delimiter ;;
@@ -228,7 +223,7 @@ begin
 SELECT record_id, character_img img, series_title title, series_name series, character_name as name, gift, prize, time FROM `vw_AllMyRecords` 
 where user_id = p_user_id and status_id = p_status_id;
 end ;;
-delimiter;
+delimiter ;
 
 SELECT record_id, character_img img, series_title title, series_name series, character_name as name, gift, prize FROM `vw_AllMyRecords` 
 where user_id = 1 and status_id = 4;
@@ -243,19 +238,20 @@ where user_id = p_user_id) as l
 left join Status s on l.status_id = s.id
 left join LogisticsMethod lm on l.method_id = lm.id;
 end ;;
-delimiter;
+delimiter ;
 
 drop procedure if exists GetUserinfoById;
 delimiter ;;
 create procedure GetUserinfoById(in p_user_id int)
 begin 
-select u.id, name, email, phone, birth, concat(co.zipcode, ci.city, co.county, u.road) address, credit, recommend
+select u.id, name, email, phone, birth, concat(co.zipcode, ci.city, co.county, u.road) address, credit, recommend, h.headphoto
 from 
-(SELECT id, name, email, phone, birth, county_id, road, right(credit, 4) credit, concat('GCR', id, '657') recommend FROM `Users` WHERE id = p_user_id) as u
+(SELECT id, name, email, phone, birth, county_id, road, right(credit, 4) credit, concat('GCR', id, '657') recommend, headphoto FROM `Users` WHERE id = p_user_id) as u
 left join County co on u.county_id = co.id
-left join City ci on co.city_id = ci.id;
+left join City ci on co.city_id = ci.id
+left join HeadPhoto h on u.headphoto = h.id;
 end ;;
-delimiter;
+delimiter ;
 
 
 -- 全
@@ -285,7 +281,7 @@ left join Address a on l.address_id = a.id
 left join County co on a.county_id = co.id
 left join City ci on co.city_id = ci.id;
 end ;;
-delimiter;
+delimiter ;
 
 drop procedure if exists GetLogisticsItemById;
 delimiter ;;
@@ -300,15 +296,15 @@ left join Records r on li.records_id = r.id
 left join Characters c on r.character_id = c.id
 group by character_id;
 end ;;
-delimiter;
+delimiter ;
 
 drop procedure if exists GetAllCardByCategoryId;
 delimiter ;;
 create procedure GetAllCardByCategoryId(in p_category_id int)
 begin
-select o.id series_id, Theme.theme theme, SeriesTitle.name_title series_title, o.name name, Price.price price, count(o.id) amount, rank, rare, o.release_time
+select o.id series_id, Theme.theme theme, SeriesTitle.name_title series_title, o.name name, Price.price price, count(o.id) amount, rank, rare, o.release_time, o.series_label
 from(
-    select s.series_id id, Series.name name, Series.theme_id, Series.name_title_id, Series.price_id, sum(rank) rank, sum(rare) rare, Series.release_time
+    select s.series_id id, Series.name name, Series.theme_id, Series.name_title_id, Series.price_id, sum(rank) rank, sum(rare) rare, Series.release_time, Series.series_label
 	from(
     	select series_id, count(series_id) rank, 0 rare
 		  from Records r 
@@ -328,17 +324,17 @@ left join Price on o.price_id = Price.id
 left join Characters on o.id = Characters.series_id
 group by o.id;
 end ;;
-delimiter;
+delimiter ;
 
 drop procedure if exists GetAllCardByUserAndCategoryId;
 delimiter ;;
 create procedure GetAllCardByUserAndCategoryId(in p_user_id int, in p_category_id int)
 begin
-select a.series_id, theme, series_title, name, price, amount, rank, rare, release_time, case when b.user_id > 0 then 1 else 0 end as collected
+select a.series_id, theme, series_title, name, price, amount, rank, rare, release_time, case when b.user_id > 0 then 1 else 0 end as collected, series_label
 from(
-    select o.id series_id, Theme.theme theme, SeriesTitle.name_title series_title, o.name name, Price.price price, count(o.id) amount, rank, rare, o.release_time
+    select o.id series_id, Theme.theme theme, SeriesTitle.name_title series_title, o.name name, Price.price price, count(o.id) amount, rank, rare, o.release_time, o.series_label
     from(
-        select s.series_id id, Series.name name, Series.theme_id, Series.name_title_id, Series.price_id, sum(rank) rank, sum(rare) rare, Series.release_time
+      select s.series_id id, Series.name name, Series.theme_id, Series.name_title_id, Series.price_id, sum(rank) rank, sum(rare) rare, Series.release_time, Series.series_label
     	from(
         	select series_id, count(series_id) rank, 0 rare
     		  from Records r 
@@ -361,4 +357,4 @@ from(
 left join (select user_id, series_id from Collection where user_id = p_user_id) as b on a.series_id = b.series_id;
 
 end ;;
-delimiter;
+delimiter ;
