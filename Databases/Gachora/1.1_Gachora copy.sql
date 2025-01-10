@@ -42,10 +42,10 @@ CREATE TABLE `Address` (
 -- 傾印資料表的資料 `Address`
 --
 
-INSERT INTO `Address` (`id`, `user_id`, `title`, `county_id`, `road`, `status_id`) VALUES
-(1, 1, '家', 20, '鄉間小路1號', 12),
-(2, 1, '公司', 1, '康莊大道0號', 12),
-(3, 1, '273813,昌進門市', 103, '大進街387號1樓', 12);
+-- INSERT INTO `Address` (`id`, `user_id`, `title`, `county_id`, `road`, `status_id`) VALUES
+-- (1, 1, '家', 20, '復興南路一段390號樓', 12),
+-- (2, 1, '公司', 103, '公益路二段51號18樓', 12),
+-- (3, 1, '273813,昌進門市', 103, '大進街387號1樓', 12);
 -- --------------------------------------------------------
 
 --
@@ -64,11 +64,10 @@ CREATE TABLE `Bill` (
 -- 傾印資料表的資料 `Bill`
 --
 
-INSERT INTO `Bill` (`id`, `user_id`, `create_at`, `gash_id`, `update_at`) VALUES
-(1, 1, 1697888888, 1, 1736888999),
-(2, 1, 1697888888, 3, 1697888999),
-(3, 1, 1697888888, 5, 1735888999),
-(4, 1, 1697888888, 6, NULL);
+-- INSERT INTO `Bill` (`id`, `user_id`, `create_at`, `gash_id`, `update_at`) VALUES
+-- (1, 1, 1697054564, 1, 1697054664),
+-- (2, 1, 1697064564, 3, 1697064664),
+-- (3, 1, 1697074564, 5, 1697074664);
 
 -- --------------------------------------------------------
 
@@ -86,9 +85,9 @@ CREATE TABLE `cache` (
 -- 傾印資料表的資料 `cache`
 --
 
-INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('alex12345@gmail.com|::1', 'i:1;', 1733644855),
-('alex12345@gmail.com|::1:timer', 'i:1733644855;', 1733644855);
+-- INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
+-- ('alex12345@gmail.com|::1', 'i:1;', 1733644855),
+-- ('alex12345@gmail.com|::1:timer', 'i:1733644855;', 1733644855);
 
 -- --------------------------------------------------------
 
@@ -110,7 +109,8 @@ INSERT INTO `Category` (`id`, `category`) VALUES
 (2, '一番賞'),
 (3, '儲值'),
 (4, '生日禮'),
-(5, '推薦禮');
+(5, '推薦禮'),
+(6, '入會禮');
 
 -- --------------------------------------------------------
 
@@ -122,8 +122,8 @@ CREATE TABLE `Characters` (
   `id` int(10) UNSIGNED NOT NULL,
   `series_id` int(10) UNSIGNED NOT NULL COMMENT '系列id',
   `prize_id` tinyint(3) UNSIGNED DEFAULT NULL COMMENT '賞別id',
-  `name` varchar(20) NOT NULL COMMENT '角色名',
-  `img` varchar(100) DEFAULT NULL COMMENT '角色圖',
+  `name` varchar(100) NOT NULL COMMENT '角色名',
+  `img` varchar(40) DEFAULT NULL COMMENT '角色圖',
   `material_id` tinyint(3) UNSIGNED DEFAULT NULL COMMENT '材質id',
   `size1` tinyint(3) UNSIGNED DEFAULT NULL COMMENT '長',
   `size2` tinyint(3) UNSIGNED DEFAULT NULL COMMENT '中',
@@ -153,10 +153,10 @@ INSERT INTO `Characters` (`id`, `series_id`, `prize_id`, `name`, `material_id`, 
 (30, 7, 4, '黑輪蝸牛', 6, 4, 3, 3, '/gachaItem/a3-4.webp'),
 (31, 7, 5, '高麗菜捲蝸牛', 6, 4, 3, 3, '/gachaItem/a3-5.webp'),
 (32, 8, 1, '千陽號', 4, 6, 6, 6, '/gachaItem/a4-1.jpg'),
-(33, 8, 2, '前進梅利號', 4, 6, 6, 6, '/gachaItem/a4-1.jpg'),
-(34, 8, 3, '紅色勢力號', 4, 6, 6, 6, '/gachaItem/a4-2.jpg'),
-(35, 8, 4, '白鯨號', 4, 6, 6, 6, '/gachaItem/a4-3.jpg'),
-(36, 8, 5, '芭拉蒂海上餐廳', 4, 6, 6, 6, '/gachaItem/a4-4.jpg'),
+(33, 8, 2, '前進梅利號', 4, 6, 6, 6, '/gachaItem/a4-2.jpg'),
+(34, 8, 3, '紅色勢力號', 4, 6, 6, 6, '/gachaItem/a4-3.jpg'),
+(35, 8, 4, '白鯨號', 4, 6, 6, 6, '/gachaItem/a4-4.jpg'),
+(36, 8, 5, '芭拉蒂海上餐廳', 4, 6, 6, 6, '/gachaItem/a4-5.jpg'),
 (37, 9, 1, '服務員卡比', 6, 7, 6, 6, '/gachaItem/a5-1.jpg'),
 (38, 9, 2, '服務員瓦豆魯迪', 6, 7, 6, 6, '/gachaItem/a5-2.jpg'),
 (39, 9, 3, '瓦豆魯迪', 6, 7, 6, 6, '/gachaItem/a5-3.jpg'),
@@ -307,7 +307,153 @@ INSERT INTO `Characters` (`id`, `series_id`, `prize_id`, `name`, `material_id`, 
 (163, 29, 2, 'MOLLY 400% 聖誕2024', 28, 30, 30, 30, '/ichibanItem/a13-2.jpg'),
 (164, 29, 3, '凝結集團-蘆薈綠荊棘100%', 29, 8, 7, 7, '/ichibanItem/a13-3.jpg'),
 (165, 29, 4, 'MOLLY雙肩包', 7, 30, 26, 14, '/ichibanItem/a13-4.jpg'),
-(166, 29, 5, 'MOLLY冰箱貼', 30, 9, 8, 7, '/ichibanItem/a13-5.jpg');
+(166, 29, 5, 'MOLLY冰箱貼', 30, 9, 8, 7, '/ichibanItem/a13-5.jpg'),
+(175, 30, NULL, '入會禮', NULL, NULL, NULL, NULL, NULL),
+(320, 31, 1, '思考人鮭魚卵', 4, 5, 5, 5, '/gachaItem/a15-1.jpg'),
+(176, 31, 2, '紅牛牛鮭魚卵', 4, 5, 5, 5, '/gachaItem/a15-2.jpg'),
+(177, 31, 3, '鮭魚卵公仔', 4, 5, 5, 5, '/gachaItem/a15-3.jpg'),
+(178, 31, 4, '口紅鮭魚卵', 4, 5, 5, 5, '/gachaItem/a15-4.jpg'),
+(179, 31, 5, '糞金龜鮭魚卵', 4, 5, 5, 5, '/gachaItem/a15-5.jpg'),
+(180, 32, 1, '壽司', 32, 5, 3, 3, '/gachaItem/a16-1.png'),
+(181, 32, 2, '布丁櫻桃', 32, 5, 3, 3, '/gachaItem/a16-2.png'),
+(182, 32, 3, '櫻桃飲料', 32, 5, 3, 3, '/gachaItem/a16-3.png'),
+(183, 32, 4, '甜甜圈', 32, 5, 3, 3, '/gachaItem/a16-4.png'),
+(184, 32, 5, '三明治', 32, 5, 3, 3, '/gachaItem/a16-5.png'),
+(185, 33, 1, '轟炸大魷魚', 6, 5, 3, 3, '/gachaItem/a17-1.png'),
+(186, 33, 2, '古早味糖葫蘆', 6, 5, 3, 3, '/gachaItem/a17-2.png'),
+(187, 33, 3, '赤肉蒸餃', 6, 5, 3, 3, '/gachaItem/a17-3.png'),
+(188, 33, 4, '古早味碳烤香腸', 6, 5, 3, 3, '/gachaItem/a17-4.png'),
+(189, 33, 5, '地瓜球', 6, 5, 3, 3, '/gachaItem/a17-5.png'),
+(190, 33, 6, '炙燒骰子牛', 6, 5, 3, 3, '/gachaItem/a17-6.png'),
+(191, 34, 1, '小籠包', 32, 3, 3, 3, '/gachaItem/a18-1.jpg'),
+(192, 34, 2, '水晶蝦餃', 32, 3, 3, 3, '/gachaItem/a18-2.jpg'),
+(193, 34, 3, '翡翠餃子', 32, 3, 3, 3, '/gachaItem/a18-3.jpg'),
+(194, 34, 4, '燒賣', 32, 3, 3, 3, '/gachaItem/a18-4.jpg'),
+(195, 34, 5, '壽桃', 32, 3, 3, 3, '/gachaItem/a18-5.jpg'),
+(196, 35, 1, '烤蛇怪', 4, 6, 3, 3, '/gachaItem/a19-1.jpg'),
+(197, 35, 2, '食人植物水果塔', 4, 6, 3, 3, '/gachaItem/a19-2.jpg'),
+(198, 35, 3, '蛇怪歐姆蛋', 4, 6, 3, 3, '/gachaItem/a19-3.jpg'),
+(199, 35, 4, '走路菇的水煮鍋', 4, 6, 3, 3, '/gachaItem/a19-4.jpg'),
+(200, 35, 5, '鎧甲湯', 4, 6, 3, 3, '/gachaItem/a19-5.jpg'),
+(201, 36, 1, '美腳A', 32, 5, 3, 3, '/gachaItem/a20-1.jpg'),
+(202, 36, 2, '美腳B', 32, 5, 3, 3, '/gachaItem/a20-2.jpg'),
+(203, 36, 3, '美腳C', 32, 5, 3, 3, '/gachaItem/a20-3.jpg'),
+(204, 36, 4, '美腳D', 32, 5, 3, 3, '/gachaItem/a20-4.jpg'),
+(205, 36, 5, '美腳E', 32, 5, 3, 3, '/gachaItem/a20-5.jpg'),
+(206, 37, 1, '小提琴-拉不了', 6, 4, 4, 4, '/gachaItem/a21-1.jpg'),
+(207, 37, 2, '銅鈸-敲不了', 6, 4, 4, 4, '/gachaItem/a21-2.jpg'),
+(208, 37, 3, '梯子-爬不上', 6, 4, 4, 4, '/gachaItem/a21-3.jpg'),
+(209, 37, 4, '無法緊緊地擁抱', 6, 4, 4, 4, '/gachaItem/a21-4.jpg'),
+(210, 38, 1, '橋式摩艾', 6, 4, 4, 4, '/gachaItem/a22-1.jpg'),
+(211, 38, 2, '股關節伸展摩艾', 6, 4, 4, 4, '/gachaItem/a22-2.jpg'),
+(212, 38, 3, '腰伸展摩艾', 6, 4, 4, 4, '/gachaItem/a22-3.jpg'),
+(213, 38, 4, '深度伸腳摩艾', 6, 4, 4, 4, '/gachaItem/a22-4.jpg'),
+(214, 38, 5, '大腿內側伸展摩艾', 6, 4, 4, 4, '/gachaItem/a22-5.jpg'),
+(215, 38, 6, '腕臂伸展摩艾', 6, 4, 4, 4, '/gachaItem/a22-6.jpg'),
+(216, 39, 1, '黃色地獄犬', 4, 4, 4, 4, '/gachaItem/a23-1.jpg'),
+(217, 39, 2, '黑色地獄犬', 4, 4, 4, 4, '/gachaItem/a23-2.jpg'),
+(218, 39, 3, '阿修羅黃色犬', 4, 4, 4, 4, '/gachaItem/a23-3.jpg'),
+(219, 39, 4, '阿修羅黑色犬', 4, 4, 4, 4, '/gachaItem/a23-4.jpg'),
+(220, 39, 5, '垂直堆疊黃色犬', 4, 4, 4, 4, '/gachaItem/a23-5.jpg'),
+(221, 39, 6, '垂直堆疊黑色犬', 4, 4, 4, 4, '/gachaItem/a23-6.jpg'),
+(222, 40, 1, '大象', 4, 4, 4, 4, '/gachaItem/a24-1.jpg'),
+(223, 40, 2, '猴子', 4, 4, 4, 4, '/gachaItem/a24-2.jpg'),
+(224, 40, 3, '河馬', 4, 4, 4, 4, '/gachaItem/a24-3.jpg'),
+(225, 40, 4, '老虎', 4, 4, 4, 4, '/gachaItem/a24-4.jpg'),
+(226, 41, 1, '獅子', 4, 4, 4, 4, '/gachaItem/a25-1.jpg'),
+(227, 41, 2, '長頸鹿', 4, 4, 4, 4, '/gachaItem/a25-2.jpg'),
+(228, 41, 3, '犀牛先生', 4, 4, 4, 4, '/gachaItem/a25-3.jpg'),
+(229, 41, 4, '小狗先生', 4, 4, 4, 4, '/gachaItem/a25-4.jpg'),
+(230, 42, 1, '河童', 33, 9, 8, 7, '/gachaItem/a26-1.jpg'),
+(231, 42, 2, '南瓜貓', 33, 9, 8, 7, '/gachaItem/a26-2.jpg'),
+(232, 42, 3, '棉花糖鬼', 33, 9, 8, 7, '/gachaItem/a26-3.jpg'),
+(233, 42, 4, '夜神', 33, 9, 8, 7, '/gachaItem/a26-4.jpg'),
+(234, 43, 1, '桃花飽飽', 33, 9, 8, 7, '/gachaItem/a27-1.png'),
+(235, 43, 2, '花妖飽飽', 33, 9, 8, 7, '/gachaItem/a27-2.png'),
+(236, 43, 3, '年糕飽飽', 33, 9, 8, 7, '/gachaItem/a27-3.png'),
+(237, 43, 4, '油果飽飽', 33, 9, 8, 7, '/gachaItem/a27-4.png'),
+(238, 43, 5, '招財飽飽', 33, 9, 8, 7, '/gachaItem/a27-5.png'),
+(239, 43, 6, '福祿飽飽', 33, 9, 8, 7, '/gachaItem/a27-6.png'),
+(240, 43, 7, '如意飽飽', 33, 9, 8, 7, '/gachaItem/a27-7.png'),
+(241, 43, 8, '蛋糕飽飽', 33, 9, 8, 7, '/gachaItem/a27-8.png'),
+(242, 44, 1, '哭哭蜜蜂', 7, 15, 10, 8, '/gachaItem/a28-1.png'),
+(243, 44, 2, '哭哭熊', 7, 15, 10, 8, '/gachaItem/a28-2.png'),
+(244, 44, 3, '哭蛙哭蛙', 7, 15, 10, 8, '/gachaItem/a28-3.png'),
+(245, 44, 4, '哭鴨哭鴨', 7, 15, 10, 8, '/gachaItem/a28-4.png'),
+(246, 44, 5, '哭哭兔', 7, 15, 10, 8, '/gachaItem/a28-5.png'),
+(247, 44, 6, '愛麗絲-藍', 7, 15, 10, 8, '/gachaItem/a28-6.png'),
+(248, 44, 7, '初生 - 棕', 7, 15, 10, 8, '/gachaItem/a28-7.png'),
+(249, 44, 8, '初生 - 白', 7, 15, 10, 8, '/gachaItem/a28-8.png'),
+(250, 45, 1, '自由鋼彈', 4, 11, 7, 7, '/ichibanItem/a14-1.jpg'),
+(251, 45, 2, '正義鋼彈', 4, 11, 7, 7, '/ichibanItem/a14-2.jpg'),
+(252, 45, 3, '自由鋼彈-飛行', 4, 11, 7, 7, '/ichibanItem/a14-3.jpg'),
+(253, 45, 4, '正義鋼彈-武器', 4, 11, 7, 7, '/ichibanItem/a14-4.jpg'),
+(254, 45, 5, '正義鋼彈-飛行', 4, 11, 7, 7, '/ichibanItem/a14-5.jpg'),
+(255, 46, 1, '鋼彈Mk-II', 4, 11, 7, 7, '/ichibanItem/a15-1.jpg'),
+(256, 46, 2, '鋼彈Mk-II-飛行', 4, 11, 7, 7, '/ichibanItem/a15-2.jpg'),
+(257, 46, 3, 'RX-78 鋼彈', 4, 11, 7, 7, '/ichibanItem/a15-3.jpg'),
+(258, 46, 4, 'RX-78 形色鋼彈', 4, 11, 7, 7, '/ichibanItem/a15-4.jpg'),
+(259, 46, 5, 'RX-78 形色鋼彈飛行', 4, 11, 7, 7, '/ichibanItem/a15-5.jpg'),
+(260, 47, 1, '摩斯漢堡造型抱枕', 34, 11, 7, 7, '/ichibanItem/a16-1.jpg'),
+(261, 47, 2, '夏季毛毯', 16, 50, 20, 20, '/ichibanItem/a16-2.jpg'),
+(262, 47, 3, '托特包', 35, 18, 12, 12, '/ichibanItem/a16-3.jpg'),
+(263, 47, 4, '玻璃杯收藏組', 23, 10, 10, 10, '/ichibanItem/a16-4.jpg'),
+(264, 47, 5, ' 毛巾收藏組', 16, 10, 10, 10, '/ichibanItem/a16-5.jpg'),
+(265, 47, 6, '文具收藏組', 11, 10, 7, 5, '/ichibanItem/a16-6.jpg'),
+(266, 47, 7, '洋蔥圈薯條抱枕',11, 7, 7, 5, '/ichibanItem/a16-7jpg'),
+(267, 48, 1, '千井川玩偶', 34, 17, 15, 15, '/ichibanItem/a17-1.png'),
+(268, 48, 2, '八哥玩偶', 34, 17, 15, 15, '/ichibanItem/a17-2.png'),
+(269, 48, 3, '兔子玩偶', 34, 17, 15, 15, '/ichibanItem/a17-3.png'),
+(270, 48, 4, '玻璃蠟燭組', 36, 10, 10, 10, '/ichibanItem/a17-4.png'),
+(271, 48, 5, '盤子收藏組', 26, 15, 15, 15, '/ichibanItem/a17-5.png'),
+(272, 48, 6, '雪花晶球', 37, 20, 20, 20, '/ichibanItem/a17-6.png'),
+(273, 49, 1, '史努比公仔置物盒', 4, 5, 5, 5, '/ichibanItem/a18-1.jpg'),
+(274, 49, 2, '史努比存錢筒', 4, 5, 5, 5, '/ichibanItem/a18-2.jpg'),
+(275, 49, 3, '好想要餅乾的絨毛玩偶', 34, 5, 5, 5, '/ichibanItem/a18-3.jpg'),
+(276, 49, 4, '透明玻璃杯', 23, 10, 10, 10, '/ichibanItem/a18-4.jpg'),
+(277, 49, 5, '餐盤與小碗', 26, 12, 10, 8, '/ichibanItem/a18-5.jpg'),
+(278, 49, 6, '史努比海報', 18, 17, 10, 10, '/ichibanItem/a18-6.jpg'),
+(279, 49, 7, '橡膠吊飾', 38, 5, 3, 3, '/ichibanItem/a18-7.jpg'),
+(280, 49, 8, '史努比狗屋抱枕', 34, 50, 35, 20, '/ichibanItem/a18-8.jpg'),
+(281, 50, 1, 'MacBook Pro M4 晶片/16GRAM/512G SSD/顏色隨機', 39, 36, 36, 36, '/ichibanItem/a19-1.png'),
+(282, 50, 2, 'iPhone 16 Pro MAX 512G 顏色隨機', 39, 18, 18, 18, '/ichibanItem/a19-2.png'),
+(283, 50, 3, 'iPhone 16 Pro 512G 顏色隨機', 39, 5, 5, 5, '/ichibanItem/a19-3.png'),
+(284, 50, 4, 'iPad Air 256G顏色隨機', 39, 34, 34, 34, '/ichibanItem/a19-4.png'),
+(285, 50, 5, 'Apple Watch Ultra 2 無客製 顏色隨機 自選錶帶長度', 39, 5, 5, 5, '/ichibanItem/a19-5.png'),
+(286, 50, 6, 'Apple Watch 10 46mm 無客製 顏色隨機 自選錶帶長度', 39, 5, 5, 5, '/ichibanItem/a19-6.png'),
+(287, 50, 7, 'AirPods Pro (第 2 代) 搭配 MagSafe 充電盒 (USB‑C)', 40, 3, 2, 2, '/ichibanItem/a19-7.png'),
+(288, 50, 8, 'Home Pod mini 顏色隨機', 39, 10, 9, 9, '/ichibanItem/a19-8.png'),
+(289, 50, 9, 'AirTag', 42, 4, 1, 1, '/ichibanItem/a19-9.png'),
+(290, 51, 1, 'iPhone 16 Pro MAX 512G 顏色隨機', 39, 18, 5, 5, '/ichibanItem/a20-1.png'),
+(291, 51, 2, 'iPhone 16 Pro 512G 顏色隨機', 39, 18, 5, 5, '/ichibanItem/a20-2.png'),
+(292, 51, 3, 'iPhone 16 Pro 512G 顏色隨機', 39, 18, 5, 5, '/ichibanItem/a20-3.png'),
+(293, 51, 4, 'PS5 PRO', 39, 39, 22, 9, '/ichibanItem/a20-4.png'),
+(294, 51, 5, 'iPad mini WIFI 128G 顏色隨機', 39, 20, 20, 20, '/ichibanItem/a20-5.png'),
+(295, 51, 6, 'AirPods Max 顏色隨機', 40, 19, 17, 9, '/ichibanItem/a20-6.png'),
+(296, 51, 7, 'Dyson HD16 Supersonic Nural™ 全新一代 吹風機 溫控 負離子(絲絨紅 禮盒版 新春)', 39, 25, 10, 8, '/ichibanItem/a20-7.png'),
+(297, 52, 1, 'Dyson V12s Detect Slim Submarine™ Complete 乾濕全能洗地吸塵器', 39, 125, 26, 26, '/ichibanItem/a21-1.png'),
+(298, 52, 2, 'Dyson Purifier Hot+Cool™ Gen1 三合一涼暖空氣清淨機 HP10', 39, 76, 25, 25, '/ichibanItem/a21-2.png'),
+(299, 52, 3, 'Dyson Supersonic Nural™ HD16 全新一代 智能吹風機', 39, 25, 10, 8, '/ichibanItem/a21-3.png'),
+(300, 52, 4, 'Dyson Supersonic Nural™ HD16 全新一代 智能吹風機', 39, 25, 10, 8, '/ichibanItem/a21-4.png'),
+(301, 52, 5, 'Dyson Airstrait™ HT01 二合一吹風直髮器 普魯士藍', 39, 33, 6, 5, '/ichibanItem/a21-5.png'),
+(302, 52, 6, 'Dyson Purifier Big+Quiet Formaldehyde 強效極靜甲醛偵測空氣清淨機 BP04 (普魯士藍及金色)', 39, 83, 44, 42, '/ichibanItem/a21-6.png'),
+(303, 52, 7, 'Dyson Solarcycle Morph™ 檯燈 / 桌燈 普魯士藍', 39, 53, 41, 21, '/ichibanItem/a21-7.png'),
+(304, 53, 1, 'GIGABYTE 技嘉 GeForce RTX4080 SUPER WINDFORCE V2 16G 顯示卡', 43, 26, 13, 5, '/ichibanItem/a22-1.png'),
+(305, 53, 2, 'Core i9-14900KS 24核32緒 處理器《3.2Ghz/LGA1700/不含風扇》', 44, 5, 4, 4, '/ichibanItem/a22-2.png'),
+(306, 53, 3, 'ASUS 華碩 ROG STRIX Z790-F GAMING WIFI II 主機板', 45, 31, 25, 25, '/ichibanItem/a22-3.png'),
+(307, 53, 4, 'NZXT 恩傑 H9 ELITE 電腦機殼 黑/白 (顏色自選) + Kraken Elite 360 RGB 液晶水冷 黑', 46, 50, 47, 30, '/ichibanItem/a22-4.png'),
+(308, 53, 5, 'ADATA 威剛 LANCER RGB DDR5-6000MHz 32GB*2 超頻桌上型記憶體-白', 47, 14, 4, 1, '/ichibanItem/a22-5.png'),
+(309, 53, 6, 'ROG-LOKI-1200T-SFX-L-GAMING 鈦金牌 全模組 ATX3.1電源供應器', 48, 13, 13, 7, '/ichibanItem/a22-6.png'),
+(310, 53, 7, 'Samsung 三星S49DG952SC Odyssey SMART G9 曲面電競螢幕(49型/QD-OLED/5120x1440/240Hz/0.03ms/HDMI2.1)', 49, 115, 54, 49, '/ichibanItem/a22-7.png'),
+(311, 54, 1, '風靈鋼彈', 4, 11, 7, 7, '/ichibanItem/a23-1.jpg'),
+(312, 54, 2, '神鋼彈', 4, 11, 7, 7, '/ichibanItem/a23-2.jpg'),
+(313, 54, 3, '振揚自由鋼彈', 4, 11, 7, 7, '/ichibanItem/a23-3.jpg'),
+(314, 54, 4, '天狼王型獵魔鋼彈', 4, 11, 7, 7, '/ichibanItem/a23-4.jpg'),
+(315, 54, 5, '飛翼鋼彈零式', 4, 11, 7, 7, '/ichibanItem/a23-5.jpg'),
+(316, 54, 6, 'RX-78-2 鋼彈', 4, 11, 7, 7, '/ichibanItem/a23-6.jpg'),
+(317, 54, 7, 'GRADE 1/144 ν鋼彈', 4, 11, 7, 7, '/ichibanItem/a23-7.jpg'),
+(318, 54, 8, '貼紙套組', 19, 11, 7, 7, '/ichibanItem/a23-8.jpg'),
+(319, 54, 9, '壓克力立牌', 12, 7, 7, 7, '/ichibanItem/a23-9.jpg');
 
 -- character id -76
 
@@ -366,11 +512,11 @@ CREATE TABLE `Collection` (
 -- 傾印資料表的資料 `Collection`
 --
 
-INSERT INTO `Collection` (`user_id`, `series_id`, `notification_status`) VALUES
-(1, 1, 11),
-(1, 2, 10),
-(1, 3, 10),
-(1, 4, 11);
+-- INSERT INTO `Collection` (`user_id`, `series_id`, `notification_status`) VALUES
+-- (1, 4, 10),
+-- (1, 15, 10),
+-- (1, 28, 10),
+-- (1, 29, 10);
 
 -- --------------------------------------------------------
 
@@ -805,9 +951,9 @@ CREATE TABLE `Gift` (
 -- 傾印資料表的資料 `Gift`
 --
 
-INSERT INTO `Gift` (`id`, `user_id`, `category_id`, `amount`, `expire_at`, `update_at`) VALUES
-(1, 1, 4, 200, 1697899999, 1697888888),
-(2, 1, 5, 200, 1697888888, 1697666666);
+-- INSERT INTO `Gift` (`id`, `user_id`, `category_id`, `amount`, `expire_at`, `update_at`) VALUES
+-- (1, 1, 5, 200, 1707054564, 1707054564),
+-- (2, 1, 4, 200, 1731340800, 1731340800);
 
 -- --------------------------------------------------------
 
@@ -817,7 +963,7 @@ INSERT INTO `Gift` (`id`, `user_id`, `category_id`, `amount`, `expire_at`, `upda
 
 CREATE TABLE `HeadPhoto` (
   `id` tinyint(3) UNSIGNED NOT NULL,
-  `headphoto` varchar(10) DEFAULT NULL COMMENT '頭像'
+  `headphoto` varchar(25) DEFAULT NULL COMMENT '頭像'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -825,10 +971,13 @@ CREATE TABLE `HeadPhoto` (
 --
 
 INSERT INTO `HeadPhoto` (`id`, `headphoto`) VALUES
-(1, 'lv10000'),
-(2, 'lv20000'),
-(3, 'egg10'),
-(4, 'ichiban10');
+(1, '/memberItem/dim1.png'),
+(2, '/memberItem/dim2.png'),
+(3, '/memberItem/dim3.png'),
+(4, '/memberItem/dim4.png'),
+(5, '/memberItem/dim5.png'),
+(6, '/memberItem/snake.png'),
+(7, '/gachoButton.png');
 
 -- --------------------------------------------------------
 
@@ -851,9 +1000,9 @@ CREATE TABLE `Logistics` (
 -- 傾印資料表的資料 `Logistics`
 --
 
-INSERT INTO `Logistics` (`id`, `time`, `user_id`, `logistics_people_id`, `address_id`, `method_id`, `status_id`, `deliver_time`) VALUES
-(1, 1697735674, 1, 3, 2, 1, 7, '早上(09:00 ~ 12:00)'),
-(2, 1697620375, 1, 3, 1, 1, 8, '早上(09:00 ~ 12:00)');
+-- INSERT INTO `Logistics` (`id`, `time`, `user_id`, `logistics_people_id`, `address_id`, `method_id`, `status_id`, `deliver_time`) VALUES
+-- (1, 1707054664, 1, 1, 1, 1, 8, '早上(09:00 ~ 12:00)'),
+-- (2, 1731340900, 1, 2, 1, 1, 8, '早上(09:00 ~ 12:00)');
 
 -- --------------------------------------------------------
 
@@ -870,12 +1019,13 @@ CREATE TABLE `LogisticsItem` (
 -- 傾印資料表的資料 `LogisticsItem`
 --
 
-INSERT INTO `LogisticsItem` (`logistics_id`, `records_id`) VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(2, 4),
-(2, 5);
+-- INSERT INTO `LogisticsItem` (`logistics_id`, `records_id`) VALUES
+-- (1, 1),
+-- (1, 2),
+-- (1, 3),
+-- (2, 4),
+-- (2, 5),
+-- (2, 6);
 
 -- --------------------------------------------------------
 
@@ -894,8 +1044,7 @@ CREATE TABLE `LogisticsMethod` (
 
 INSERT INTO `LogisticsMethod` (`id`, `method`) VALUES
 (1, '超商'),
-(2, '宅配'),
-(3, '自取');
+(2, '宅配');
 
 -- --------------------------------------------------------
 
@@ -916,9 +1065,9 @@ CREATE TABLE `LogisticsPeople` (
 -- 傾印資料表的資料 `LogisticsPeople`
 --
 
-INSERT INTO `LogisticsPeople` (`id`, `user_id`, `name`, `phone`, `email`, `status_id`) VALUES
-(1, 1, '大大1', '910234567', 'big1@qq.com', 13),
-(2, 1, '大大2', '910234456', 'big2@qq.com', 12);
+-- INSERT INTO `LogisticsPeople` (`id`, `user_id`, `name`, `phone`, `email`, `status_id`) VALUES
+-- (1, 1, '邱拉', '0910234567', 'gachora@qq.com', 12),
+-- (2, 1, '邱羅', '0910234456', 'gachoro@qq.com', 12);
 
 -- --------------------------------------------------------
 
@@ -1108,7 +1257,152 @@ INSERT INTO `Machine` (`id`, `character_id`, `remain`, `amount`) VALUES
 (168, 163, 2, 2),
 (169, 164, 4, 4),
 (170, 165, 40, 40),
-(171, 166, 100, 100);
+(171, 166, 100, 100),
+(172, 320, 5, 5),
+(173, 176, 5, 5),
+(174, 177, 5, 5),
+(175, 178, 5, 5),
+(176, 179, 5, 5),
+(177, 180, 5, 5),
+(178, 181, 5, 5),
+(179, 182, 5, 5),
+(180, 183, 5, 5),
+(181, 184, 5, 5),
+(182, 185, 5, 5),
+(183, 186, 5, 5),
+(184, 187, 5, 5),
+(185, 188, 5, 5),
+(186, 189, 5, 5),
+(187, 190, 5, 5),
+(188, 191, 15, 15),
+(189, 192, 15, 15),
+(190, 193, 15, 15),
+(191, 194, 15, 15),
+(192, 195, 15, 15),
+(193, 196, 10, 10),
+(194, 197, 10, 10),
+(195, 198, 15, 15),
+(196, 199, 15, 15),
+(197, 200, 15, 15),
+(198, 201, 5, 5),
+(199, 202, 5, 5),
+(200, 203, 5, 5),
+(201, 204, 5, 5),
+(202, 205, 5, 5),
+(203, 206, 5, 5),
+(204, 207, 5, 5),
+(205, 208, 5, 5),
+(206, 209, 5, 5),
+(207, 210, 5, 5),
+(208, 211, 5, 5),
+(209, 212, 5, 5),
+(210, 213, 5, 5),
+(211, 214, 5, 5),
+(212, 215, 5, 5),
+(213, 216, 5, 5),
+(214, 217, 5, 5),
+(215, 218, 5, 5),
+(216, 219, 5, 5),
+(217, 220, 5, 5),
+(218, 221, 5, 5),
+(219, 222, 5, 5),
+(220, 223, 5, 5),
+(221, 224, 5, 5),
+(222, 225, 5, 5),
+(223, 226, 5, 5),
+(224, 227, 5, 5),
+(225, 228, 5, 5),
+(226, 229, 5, 5),
+(227, 230, 5, 5),
+(228, 231, 5, 5),
+(229, 232, 5, 5),
+(230, 233, 5, 5),
+(231, 234, 5, 5),
+(232, 235, 5, 5),
+(233, 236, 5, 5),
+(234, 237, 5, 5),
+(235, 238, 5, 5),
+(236, 239, 5, 5),
+(237, 240, 5, 5),
+(238, 241, 5, 5),
+(239, 242, 5, 5),
+(240, 243, 5, 5),
+(241, 244, 5, 5),
+(242, 245, 5, 5),
+(243, 246, 5, 5),
+(244, 247, 5, 5),
+(245, 248, 5, 5),
+(246, 249, 5, 5),
+(247, 250, 1, 1),
+(248, 251, 2, 2),
+(249, 252, 4, 4),
+(250, 253, 40, 40),
+(251, 254, 100, 100),
+(252, 255, 1, 1),
+(253, 256, 2, 2),
+(254, 257, 4, 4),
+(255, 258, 40, 40),
+(256, 259, 100, 100),
+(257, 260, 1, 1),
+(258, 261, 2, 2),
+(259, 262, 4, 4),
+(260, 263, 40, 40),
+(261, 264, 100, 100),
+(262, 265, 100, 100),
+(263, 266, 100, 100),
+(264, 267, 1, 1),
+(265, 268, 2, 2),
+(266, 269, 4, 4),
+(267, 270, 40, 40),
+(268, 271, 100, 100),
+(269, 272, 100, 100),
+(270, 273, 1, 1),
+(271, 274, 2, 2),
+(272, 275, 4, 4),
+(273, 276, 40, 40),
+(274, 277, 100, 100),
+(275, 278, 100, 100),
+(276, 279, 100, 100),
+(277, 280, 100, 100),
+(278, 281, 1, 1),
+(279, 282, 2, 2),
+(280, 283, 4, 4),
+(281, 284, 40, 40),
+(282, 285, 100, 100),
+(283, 286, 100, 100),
+(284, 287, 200, 200),
+(285, 288, 200, 200),
+(286, 289, 800, 800),
+(287, 290, 1, 1),
+(288, 291, 2, 2),
+(289, 292, 4, 4),
+(290, 293, 40, 40),
+(291, 294, 40, 40),
+(292, 295, 300, 300),
+(293, 296, 300, 300),
+(294, 297, 1, 1),
+(295, 298, 2, 2),
+(296, 299, 4, 4),
+(297, 300, 4, 4),
+(298, 301, 300, 300),
+(299, 302, 300, 300),
+(300, 303, 300, 300),
+(301, 304, 4, 4),
+(302, 305, 4, 4),
+(303, 306, 4, 4),
+(304, 307, 4, 4),
+(305, 308, 300, 300),
+(306, 309, 300, 300),
+(307, 310, 4, 4),
+(308, 311, 5, 5),
+(309, 312, 10, 10),
+(310, 313, 10, 10),
+(311, 314, 10, 10),
+(312, 315, 20, 20),
+(313, 316, 20, 20),
+(314, 317, 20, 20),
+(315, 318, 200, 200),
+(316, 319, 200, 200);
 
 -- --------------------------------------------------------
 
@@ -1118,7 +1412,7 @@ INSERT INTO `Machine` (`id`, `character_id`, `remain`, `amount`) VALUES
 
 CREATE TABLE `Material` (
   `id` tinyint(3) UNSIGNED NOT NULL,
-  `material` varchar(25) DEFAULT NULL COMMENT '材質'
+  `material` varchar(35) DEFAULT NULL COMMENT '材質'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1156,7 +1450,25 @@ INSERT INTO `Material` (`id`, `material`) VALUES
 (28, 'PVC+ABS+PC'),
 (29, 'PVC/ABS'),
 (30, '密度板/鋁箔/軟磁'),
-(31, '尼龍');
+(31, '尼龍'),
+(32, 'ATBC-PVC'),
+(33, 'PVC膠質'),
+(34, '絨毛+棉花'),
+(35, '棉麻'),
+(36, '玻璃+植物蠟'),
+(37, '玻璃+PVC'),
+(38, '金屬+塑膠'),
+(39, '再生铝金属'),
+(40, '不锈钢聚酯纤维和尼龙'),
+(41, '環保聚酯紗線'),
+(42, '不锈钢'),
+(43, '全金屬背'),
+(44, '矽晶片+陶瓷材料'),
+(45, 'PCB'),
+(46, '鋼材(SPCC)'),
+(47, 'PCB（印刷電路板）'),
+(48, '鋁合金外殼'),
+(49, 'QD-OLED 面板');
 
 -- --------------------------------------------------------
 
@@ -1263,15 +1575,15 @@ CREATE TABLE `Records` (
 -- 傾印資料表的資料 `Records`
 --
 
-INSERT INTO `Records` (`id`, `time`, `user_id`, `character_id`, `label`, `status_id`) VALUES
-(1, 1698234865, 1, 1, NULL, 6),
-(2, 1698245865, 1, 1, NULL, 7),
-(3, 1698256865, 1, 6, NULL, 4),
-(4, 1698267865, 2, 7, NULL, 4),
-(5, 1698267865, 1, 8, NULL, 4),
-(6, 1698231865, 1, 11, NULL, 5),
-(7, 1698234865, 1, 12, NULL, 2),
-(8, 1698234865, 1, 13, NULL, 2);
+-- INSERT INTO `Records` (`id`, `time`, `user_id`, `character_id`, `label`, `status_id`) VALUES
+-- (1, 1707054664, 1, 1, NULL, 8),
+-- (2, 1707054664, 1, 1, NULL, 8),
+-- (3, 1707054664, 1, 6, NULL, 8),
+-- (4, 1731340900, 1, 7, NULL, 8),
+-- (5, 1731340900, 1, 8, NULL, 8),
+-- (6, 1731340900, 1, 11, NULL, 8),
+-- (7, 1728662400, 1, 14, NULL, 2),
+-- (8, 1707054564, 1, 15, NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -1289,7 +1601,7 @@ CREATE TABLE `Series` (
   `stock` tinyint(3) UNSIGNED NOT NULL COMMENT '庫存',
   `release_time` bigint(20) DEFAULT NULL COMMENT '上架時間',
   `end_time` bigint(20) DEFAULT 0 COMMENT '抽完、補貨時間',
-  `series_label` enum('大人氣聯名IP區', '美味食物區', '動漫遊戲區', '動物世界區', '趣味惡搞區', '其他類型區', '鋼彈/擬真模型收藏區') DEFAULT NULL COMMENT '標籤'
+  `series_label` enum('大人氣聯名IP區', '美味食物區', '動漫遊戲區', '動物世界區', '趣味惡搞區', '其他類型區', '鋼彈/擬真模型收藏區', '科技娛樂區') DEFAULT NULL COMMENT '標籤'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1325,7 +1637,32 @@ INSERT INTO `Series` (`id`, `category_id`, `name_title_id`, `name`, `theme_id`, 
 (26, 2, 28, '庫洛魔法使', 19, 3, 0, unix_timestamp(now()), '動漫遊戲區'),
 (27, 2, 29, '咒術廻戰', 5, 3, 0, unix_timestamp(now()), '動漫遊戲區'),
 (28, 2, 30, '吉野家', 20, 3, 0, unix_timestamp(now()), '其他類型區'),
-(29, 2, 31, '凝結集團-MOLLY聯名', 11, 8, 1, unix_timestamp(now()), '大人氣聯名IP區');
+(29, 2, 31, '凝結集團-MOLLY聯名', 11, 8, 1, unix_timestamp(now()), '大人氣聯名IP區'),
+(30, 6, NULL, '入會禮', NULL, 21, 1, unix_timestamp(now()), NULL),
+(31, 1, 32, '部分鮭魚卵', 21, 1, 1, unix_timestamp(now()), '趣味惡搞區'),
+(32, 1, 33, '美食躲貓貓 P2', 22, 7, 1, unix_timestamp(now()), '美味食物區'),
+(33, 1, 34, '寧夏夜市美食', 23, 2, 1, unix_timestamp(now()), '美味食物區'),
+(34, 1, 35, '等待中的港式飲茶', 24, 2, 1, unix_timestamp(now()), '美味食物區'),
+(35, 1, 36, 'ダンジョン飯', 25, 2, 1, unix_timestamp(now()), '美味食物區'),
+(36, 1, 37, '美腿鯊魚', 26, 2, 1, unix_timestamp(now()), '趣味惡搞區'),
+(37, 1, 38, '悲慘的長嘴鱷魚', 27, 1, 1, unix_timestamp(now()), '趣味惡搞區'),
+(38, 1, 39, '摩艾伸展操', 28, 2, 1, unix_timestamp(now()), '趣味惡搞區'),
+(39, 1, 40, '地獄三頭柴犬', 29, 2, 1, unix_timestamp(now()), '趣味惡搞區'),
+(40, 1, 41, '圓滾滾動物', 30, 1, 1, unix_timestamp(now()), '動物世界區'),
+(41, 1, 42, '動物們笑嘻嘻', 31, 6, 1, unix_timestamp(now()), '動物世界區'),
+(42, 1, 43, '畢奇PUCKY精靈怪獸寶寶系列', 11, 6, 1, unix_timestamp(now()), '大人氣聯名IP區'),
+(43, 1, 44, 'POPMART - 福飽飽', 32, 6, 1, unix_timestamp(now()), '大人氣聯名IP區'),
+(44, 1, 45, 'CRYBABY哭娃娃', 11, 6, 1, unix_timestamp(now()), '大人氣聯名IP區'),
+(45, 2, 46, '自由鋼彈＆正義鋼彈', 33, 20, 1, unix_timestamp(now()), '鋼彈/擬真模型收藏區'),
+(46, 2, 46, '自由鋼彈＆正義鋼彈', 33, 5, 1, unix_timestamp(now()), '鋼彈/擬真模型收藏區'),
+(47, 2, 47, '巨大漢堡', 34, 3, 1, unix_timestamp(now()), '大人氣聯名IP區'),
+(48, 2, 48, '吉伊卡哇', 35, 3, 1, unix_timestamp(now()), '大人氣聯名IP區'),
+(49, 2, 49, '史努比', 36, 2, 1, unix_timestamp(now()), '大人氣聯名IP區'),
+(50, 2, 50, 'Apple電器獎品', 37, 2, 1, unix_timestamp(now()), '科技娛樂區'),
+(51, 2, 51, '電器獎品', 38, 2, 1, unix_timestamp(now()), '科技娛樂區'),
+(52, 2, 52, 'Dyson電器獎品', 39, 2, 1, unix_timestamp(now()), '科技娛樂區'),
+(53, 2, 52, 'Dyson電器獎品', 39, 2, 1, unix_timestamp(now()), '科技娛樂區'),
+(54, 2, 53, '鋼普拉 2024', 33, 1, 1, unix_timestamp(now()), '鋼彈/擬真模型收藏區');
 
 -- seriesid -14
 
@@ -1338,7 +1675,7 @@ INSERT INTO `Series` (`id`, `category_id`, `name_title_id`, `name`, `theme_id`, 
 CREATE TABLE `SeriesImg` (
   `id` int(10) UNSIGNED NOT NULL,
   `series_id` int(10) UNSIGNED NOT NULL COMMENT '系列id',
-  `img` varchar(100) DEFAULT NULL COMMENT '系列圖'
+  `img` varchar(30) DEFAULT NULL COMMENT '系列圖'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1399,7 +1736,31 @@ INSERT INTO `SeriesImg` (`id`, `series_id`, `img`) VALUES
 (51, 29, '/ichibanItem/d13.jpg'),
 (52, 29, '/ichibanItem/e13.jpg'),
 (53, 29, '/ichibanItem/f13.jpg'),
-(54, 29, '/ichibanItem/g13.jpg');
+(54, 29, '/ichibanItem/g13.jpg'),
+(55, 31, '/gachaItem/a15.jpg'),
+(56, 32, '/gachaItem/a16.jpg'),
+(57, 33, '/gachaItem/a17.jpg'),
+(58, 34, '/gachaItem/a18.jpg'),
+(59, 35, '/gachaItem/a19.jpg'),
+(60, 36, '/gachaItem/a20.jpg'),
+(61, 37, '/gachaItem/a21.jpg'),
+(62, 38, '/gachaItem/a22.jpg'),
+(63, 39, '/gachaItem/a23.jpg'),
+(64, 40, '/gachaItem/a24.png'),
+(65, 41, '/gachaItem/a25.jpg'),
+(66, 42, '/gachaItem/a26.jpg'),
+(67, 43, '/gachaItem/a27.jpg'),
+(68, 44, '/gachaItem/a28.jpg'),
+(69, 45, '/ichibanItem/a14.jpg'),
+(70, 46, '/ichibanItem/a15.jpg'),
+(71, 47, '/ichibanItem/a16.jpg'),
+(72, 48, '/ichibanItem/a17.png'),
+(73, 49, '/ichibanItem/a18.png'),
+(74, 50, '/ichibanItem/a19.png'),
+(75, 51, '/ichibanItem/a20.png'),
+(76, 52, '/ichibanItem/a21.png'),
+(77, 53, '/ichibanItem/a22.png'),
+(78, 54, '/ichibanItem/a23.jpg');
 
 -- --------------------------------------------------------
 
@@ -1409,7 +1770,7 @@ INSERT INTO `SeriesImg` (`id`, `series_id`, `img`) VALUES
 
 CREATE TABLE `SeriesTitle` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name_title` varchar(20) NOT NULL COMMENT '系列主題名'
+  `name_title` varchar(25) NOT NULL COMMENT '系列主題名'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1447,7 +1808,29 @@ INSERT INTO `SeriesTitle` (`id`, `name_title`) VALUES
 (28, '庫洛魔法使25週年'),
 (29, '咒術廻戰-澀谷事變'),
 (30, '吉野家限量聯名款'),
-(31, 'MEGA SPACE MOLLY 系列第一彈');
+(31, 'MEGA SPACE MOLLY 系列第一彈'),
+(32, 'Stasto Bubun Ikura'),
+(33, '甜點與貓咪'),
+(34, 'Rainbow 扭蛋'),
+(35, '等待中的動物'),
+(36, '奇幻美食'),
+(37, '美腿鯊魚'),
+(38, '鱷魚'),
+(39, '體操公仔'),
+(40, '三頭柴犬'),
+(41, '圓滾滾'),
+(42, '笑嘻嘻'),
+(43, '泡泡瑪特 - 萬聖節'),
+(44, '泡泡瑪特 福祿飽飽'),
+(45, '泡泡瑪特 眼淚工廠毛絨公仔'),
+(46, 'G-FRAME FA'),
+(47, '摩斯漢堡'),
+(48, 'Chiikawa Enimai Kuji'),
+(49, 'PEANUTS'),
+(50, 'Apple 全系列'),
+(51, '2025年 電器全系列'),
+(52, 'Dyson 全系列'),
+(53, '鋼彈機動');
 
 -- --------------------------------------------------------
 
@@ -1510,7 +1893,7 @@ INSERT INTO `Status` (`id`, `status`) VALUES
 
 CREATE TABLE `Theme` (
   `id` tinyint(3) UNSIGNED NOT NULL,
-  `theme` varchar(7) DEFAULT NULL COMMENT '系列主題'
+  `theme` varchar(20) DEFAULT NULL COMMENT '系列主題'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1537,7 +1920,26 @@ INSERT INTO `Theme` (`id`, `theme`) VALUES
 (17, '我推的孩子'),
 (18, '東京復仇者'),
 (19, '庫洛魔法使'),
-(20, '吉野家實用餐具');
+(20, '吉野家實用餐具'),
+(21, 'stand stones'),
+(22, '貓咪美食'),
+(23, '台灣美食'),
+(24, '等待中的野菜'),
+(25, '迷宮飯'),
+(26, '搞怪扭蛋'),
+(27, '長嘴鱷魚'),
+(28, '摩艾暖身拉筋公仔'),
+(29, '地獄犬'),
+(30, '胖胖動物們'),
+(31, '笑嘻嘻動物們'),
+(32, 'POPMART - 福飽飽'),
+(33, '機動戰士鋼彈'),
+(34, '摩斯漢堡抱枕'),
+(35, '心意相通'),
+(36, 'Happy and Relaxing'),
+(37, 'Apple電器'),
+(38, 'Apple+電器'),
+(39, 'Dyson電器');
 
 -- --------------------------------------------------------
 
@@ -1570,7 +1972,7 @@ CREATE TABLE `Users` (
   `county_id` smallint(5) UNSIGNED DEFAULT NULL COMMENT '城',
   `road` varchar(25) DEFAULT NULL COMMENT '路',
   `credit` varchar(16) DEFAULT NULL COMMENT '信用卡',
-  `headphoto` tinyint(3) UNSIGNED DEFAULT NULL COMMENT '頭像id',
+  `headphoto` tinyint(3) UNSIGNED DEFAULT 7 COMMENT '頭像id',
   `created_at` timestamp NULL DEFAULT NULL COMMENT '新增時間',
   `updated_at` timestamp NULL DEFAULT NULL COMMENT '更新時間',
   `last_birthday_gift` year(4) NULL DEFAULT NULL COMMENT '生日禮確認'
@@ -1581,10 +1983,9 @@ CREATE TABLE `Users` (
 --
 
 INSERT INTO `Users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `phone`, `birth`, `county_id`, `road`, `credit`, `headphoto`, `created_at`, `updated_at`) VALUES
-(1, '第一位pwd: alexalex', 'user1@qq.com', NULL, '$2y$12$jJmHoqr3D9FuE.mpJxFSbOs54zod4f4JOkoXt3hmsaPU0gr1bmsTu', NULL, '0912345678', '2000-01-01', 1, '鄉間小路1段1號', '1234567887654321', NULL, '2023-10-11 20:02:44', '2023-10-24 01:22:44'),
-(2, '第二位pwd: alexalex', 'user2@qq.com', NULL, '$2y$12$jJmHoqr3D9FuE.mpJxFSbOs54zod4f4JOkoXt3hmsaPU0gr1bmsTu', NULL, '0912346789', '2000-02-02', 2, '鄉間小路2段2號', '1234567887654322', NULL, '2023-10-19 22:29:24', '2023-10-24 01:06:04'),
-(3, '第三位pwd: alexalex', 'user3@qq.com', NULL, '$2y$12$jJmHoqr3D9FuE.mpJxFSbOs54zod4f4JOkoXt3hmsaPU0gr1bmsTu', NULL, '0912345789', '2000-03-03', 3, '鄉間小路3段3號', '1234567887654323', NULL, '2023-11-20 09:29:00', '2023-10-24 01:06:04');
-
+(1, 'Chora', 'user1@qq.com', NULL, '$2y$12$jJmHoqr3D9FuE.mpJxFSbOs54zod4f4JOkoXt3hmsaPU0gr1bmsTu', NULL, '0912345678', '2000-01-01', 103, '公益路二段51號18樓', '1234567887654321', 7, '2023-10-11 20:02:44', '2023-10-24 01:22:44'),
+(2, 'Choro', 'user2@qq.com', NULL, '$2y$12$jJmHoqr3D9FuE.mpJxFSbOs54zod4f4JOkoXt3hmsaPU0gr1bmsTu', NULL, '0912345679', '2001-01-02', 103, '公益路二段51號19樓', '1234567887654321', 7, '2023-10-11 20:02:44', '2023-10-24 01:22:44'),
+(3, '菜菜子', 'caicaizi@qq.com', NULL, '$2y$12$jJmHoqr3D9FuE.mpJxFSbOs54zod4f4JOkoXt3hmsaPU0gr1bmsTu', NULL, '0912345679', '2001-01-02', 103, '公益路二段51號19樓', '1234567887654321', 7, '2023-10-11 20:02:44', '2023-10-24 01:22:44');
 -- --------------------------------------------------------
 
 --
@@ -2515,3 +2916,5 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+ALTER TABLE `Users` CHANGE `email` `email` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '郵箱';
