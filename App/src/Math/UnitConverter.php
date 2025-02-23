@@ -10,7 +10,6 @@ class UnitConverter
   // ORM
   private $unit_map;
 
-  // 构造函数：接收外部配置传入的值
   public function __construct($conversion_factors, $unit_map)
   {
     $this->conversion_factors = $conversion_factors;
@@ -46,15 +45,10 @@ class UnitConverter
     }
     return $unitCode ?? throw new Exception("Invalid searchunit in (getUnitORM)");;
   }
+
+  // 取的單位換算係數
   public function getConversionFactor($fromUnit, $toUnit)
   {
-    // ORM to Unit（映射）
-    // if (array_key_exists($fromUnit, $this->unit_map)) {
-    //   $fromUnit = $this->unit_map[$fromUnit];
-    // }
-    // if (array_key_exists($toUnit, $this->unit_map)) {
-    //   $toUnit = $this->unit_map[$toUnit];
-    // }
     $fromUnit = $this->getUnitORM($fromUnit);
     $toUnit = $this->getUnitORM($toUnit);
 
@@ -67,6 +61,7 @@ class UnitConverter
     return $this->conversion_factors[$toUnit] / $this->conversion_factors[$fromUnit];
   }
 
+  // 人看的單位（百台尺、八進位英吋）
   public function convertHumanUnit($numbers, $mode = null, $conversionType = null)
   {
     if (!is_array($numbers)) {
@@ -109,6 +104,7 @@ class UnitConverter
     return $convertedValues;
   }
 
+  // 單位換算
   public function convertUnits($values, $fromUnit, $toUnit)
   {
     $conversionFactor = $this->getConversionFactor($fromUnit, $toUnit);
