@@ -5,7 +5,7 @@ DEFINE('UNIT_MODE', [
   'tfoot' => 'H',
   'inch' => 'O'
 ]);
-// --------------------------------------------
+
 // 定義單位換算係數
 DEFINE('CONVERSION_FACTORS', [
   'tfoot' => 33 / 10000,
