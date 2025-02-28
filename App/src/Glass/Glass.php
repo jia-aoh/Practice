@@ -1,7 +1,7 @@
 <?php
+// this file should use namespace App\Math\UnitConverter (src/Math/UnitConverter.php)
 
 namespace App\Glass;
-
 
 use App\Math\UnitConverter;
 use Exception;

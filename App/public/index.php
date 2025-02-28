@@ -1,16 +1,17 @@
 <?php
 
 require __DIR__ . '/../vendor/autoload.php';
-require_once '../src/config/config.php';
+
 use App\Glass\Glass;
 
 try {
+  $input_length_width = array(101.1, 203.3, 305.5, 407.7);
   $inputUnit = '台吋';
   $convertUnit = '台尺';
   $units = 1;
   $round = '寸材';
   echo '<pre>';
-  $glass = new Glass([101.1, 203.3, 305.5, 407.7], $inputUnit);
+  $glass = new Glass($input_length_width, $inputUnit);
 
   echo '1.輸入' . $inputUnit;
   $sides = $glass->getSides();

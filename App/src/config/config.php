@@ -1,5 +1,6 @@
 <?php
-namespace App\config;
+// this config is for src/Glass/Glass.php (or autoload file)
+
 // 定義$mode= A:原始尺寸, H:百台尺, O:英吋8進位
 DEFINE('UNIT_MODE', [
   'tfoot' => 'H',
