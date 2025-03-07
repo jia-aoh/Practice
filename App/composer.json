@@ -6,7 +6,10 @@
       "App\\": "src/"
     },
     "files": [
-      "src/config/config.php"
+      "config/config_glass.php"
     ]
-  }
+  },
+  "require": {
+        "tecnickcom/tcpdf": "^6.8"
+    }
 }
