@@ -6,7 +6,7 @@
       "App\\": "src/"
     },
     "files": [
-      "config/config_glass.php"
+      "config/glass_config.php"
     ]
   },
   "require": {
