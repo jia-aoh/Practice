@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    '2f5e8648924aa8ab72fc815ca50632c0' => $baseDir . '/config/config_glass.php',
+    '4af9ac439795812ef256b9bbf1b735ed' => $baseDir . '/config/glass_config.php',
 );

@@ -7,7 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInitef9fc996608633e0576be69f1330d873
 {
     public static $files = array (
-        '2f5e8648924aa8ab72fc815ca50632c0' => __DIR__ . '/../..' . '/config/config_glass.php',
+        '4af9ac439795812ef256b9bbf1b735ed' => __DIR__ . '/../..' . '/config/glass_config.php',
     );
 
     public static $prefixLengthsPsr4 = array (

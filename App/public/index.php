@@ -21,7 +21,7 @@ require __DIR__ . '/../vendor/autoload.php';
 <body>
 <div id="easy_table"></div>
 
-  <script src="../src/js/csv.js"></script>
+  <script src="../src/js/csv1.js"></script>
   <script>
     window.onload = csv_easy_table('GET', '../model/csv_easy_table.php', '#easy_table');
   </script>
