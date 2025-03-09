@@ -72,3 +72,6 @@ const ajax = (function () {
 })();
 
 export { ajax };
+先幫我截取get或post到資料的部分就好
+function ajax('get or post', url, {postpay:value})
+return datatype(css or json), data(json object or csv strings)
