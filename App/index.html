@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="src/js/jquery/jquery-3.7.1.min"></script>
+</head>
+
+<body>
+  <button class="continue">next...</button>
+  <div class="table-container"></div>
+  <div class="foo">click<span> </span>me</div>
+
+  <script>
+    $("button.continue").on('click', () => {
+      $('.table-container').hide()
+    })
+    let table = `
+      <table>
+        <tr>
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+          <th>4</th>
+        </tr>
+        <tr>
+          <th>5</th>
+          <th>6</th>
+          <th>7</th>
+          <th>8</th>
+        </tr>
+      </table>
+    `
+    $('.table-container').html(table)
+    $("<p id='test'>My <em>new</em> text</p>").appendTo("body"); // 接著寫
+    // $("<div>12345</div>")
+    //   .addClass("my-div")
+    //   .on({
+    //     touchstart: function (event) { // 手機觸屏事件
+    //       console.log('done')
+    //     }
+    //   })
+    //   .appendTo("body");
+    // $(myForm.elements).hide();
+    // $(document.body).css("background", "black");
+    // $("input:radio", document.forms[0]);
+    // ---------------------------------------
+    $("<div/>", {
+      "class": "test",
+      text: "Click me!",
+      click: function () {
+        $(this).toggleClass("test"); // 自動加減class
+      }
+    })
+      .appendTo("body");
+    // ----------------------------------------
+
+    $("div.foo").on("click", function () {
+      $("span", this).text(" wow ")
+      $(this).slideUp() // 關上效果
+    });
+    // ----------------------------------------
+    // $.ajax({
+    //   url: "/api/getWeather",
+    //   data: {
+    //     zipcode: 97201
+    //   },
+    //   success: function (result) {
+    //     $("#weather-temp").html("<strong>" + result + "</strong> degrees");
+    //   }
+    // })
+    // ----------------------------------------
+    // <root>
+    //   <child id="1">Item 1</child>
+    //   <child id="2">Item 2</child>
+    //   <child id="3">Item 3</child>
+    // </root>
+
+    // $.post("url.xml", function (data) {
+    //   var $childElements = $(data).find("child");
+
+    //   $childElements.each(function () {
+    //     var childText = $(this).text();
+    //     var childId = $(this).attr("id");
+
+    //     console.log("Child ID: " + childId + ", Text: " + childText);
+    //   });
+    // });
+    // ----------------------------------------
+  </script>
+</body>
+
+</html>
